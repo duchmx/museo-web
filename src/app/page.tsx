@@ -1,16 +1,45 @@
 import styles from "./page.module.css";
+import { createClient } from '@supabase/supabase-js';
 
-export default function Home() {
+export const revalidate = 0;
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+export default async function Home() {
+  const { data: heroData } = await supabase
+    .from('hero_templates')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  const hero = heroData || {
+    title: "Noche de Trova Yucateca",
+    subtitle: "Próximo Evento",
+    date_text: "Jueves 24 de Octubre · 20:00 h",
+    button_text: "Ver Calendario",
+    button_link: "/agenda",
+    background_image_url: null,
+  };
+
+  const backgroundStyle = hero.background_image_url 
+    ? { backgroundImage: `linear-gradient(rgba(26, 74, 46, 0.8), rgba(26, 74, 46, 0.9)), url(${hero.background_image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    : {};
+
   return (
     <main className={styles.main}>
-      <section className={styles.hero}>
+      <section className={styles.hero} style={backgroundStyle}>
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <p className={styles.heroLabel}>Próximo Evento</p>
-          <h1 className={styles.heroTitle}>Noche de Trova<br/><em>Yucateca</em></h1>
-          <p className={styles.heroSub}>Jueves 24 de Octubre · 20:00 h</p>
+          <p className={styles.heroLabel}>{hero.subtitle}</p>
+          <h1 className={styles.heroTitle}>{hero.title}</h1>
+          <p className={styles.heroSub}>{hero.date_text}</p>
           <div className={styles.heroDivider}></div>
-          <button className={styles.heroButton}>Ver Calendario</button>
+          <a href={hero.button_link} className={styles.heroButton} style={{ textDecoration: 'none', display: 'inline-block' }}>{hero.button_text}</a>
         </div>
       </section>
 

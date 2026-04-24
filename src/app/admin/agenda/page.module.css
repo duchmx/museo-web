@@ -1,0 +1,192 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  min-height: 80vh;
+}
+
+.header {
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--crema-oscura);
+  padding-bottom: 1.5rem;
+}
+
+.backLink {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--verde-medio);
+  margin-bottom: 1rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--verde-profundo);
+}
+
+.title {
+  font-family: var(--font-playfair);
+  font-size: 2.5rem;
+  color: var(--verde-profundo);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: var(--crema-calida);
+  padding: 2.5rem;
+  border-top: 4px solid var(--verde-medio);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.card h2 {
+  font-family: var(--font-playfair);
+  font-size: 1.8rem;
+  color: var(--verde-profundo);
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.inputGroup label {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--carbon-medio);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+  padding: 1rem;
+  border: 1px solid var(--crema-oscura);
+  background-color: white;
+  font-family: var(--font-garamond);
+  font-size: 1.1rem;
+  color: var(--carbon);
+  resize: vertical;
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+  outline: none;
+  border-color: var(--verde-medio);
+}
+
+.submitButton {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  padding: 1.2rem;
+  border: none;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background-color: var(--verde-institucional);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* List Section */
+.listSection h2 {
+  font-family: var(--font-playfair);
+  font-size: 1.8rem;
+  color: var(--verde-profundo);
+  margin-bottom: 2rem;
+}
+
+.emptyMsg {
+  font-family: var(--font-garamond);
+  font-size: 1.2rem;
+  color: var(--carbon-medio);
+  font-style: italic;
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eventItem {
+  background-color: white;
+  border: 1px solid var(--crema-oscura);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.eventInfo h3 {
+  font-family: var(--font-playfair);
+  font-size: 1.4rem;
+  color: var(--carbon);
+  margin-bottom: 0.5rem;
+}
+
+.eventDate {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  color: var(--verde-medio);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.deleteButton {
+  background-color: transparent;
+  color: #C0392B;
+  border: 1px solid #C0392B;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-jost);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #C0392B;
+  color: white;
+}

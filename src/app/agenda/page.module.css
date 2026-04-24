@@ -1,0 +1,200 @@
+.main {
+  min-height: 100vh;
+  background-color: var(--crema-base);
+}
+
+.header {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  padding: 6rem 2rem 5rem 2rem;
+  text-align: center;
+}
+
+.headerContent {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--crema-base);
+  margin-bottom: 20px;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--dorado);
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  font-family: var(--font-garamond);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--crema-oscura);
+  max-width: 600px;
+}
+
+.agendaSection {
+  padding: 5rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.eventsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.eventCard {
+  background-color: var(--crema-calida);
+  border-top: 3px solid var(--verde-medio);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.eventCard.hasImage {
+  grid-template-columns: 120px 250px 1fr;
+}
+
+.eventCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(28, 28, 26, 0.08);
+}
+
+.dateBadge {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.dateDay {
+  font-family: var(--font-playfair);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--crema-base);
+}
+
+.dateMonth {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-top: 8px;
+}
+
+.eventImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  border-right: 0.5px solid var(--crema-oscura);
+}
+
+.eventImage {
+  object-fit: cover;
+}
+
+.eventContent {
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eventTime {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 12px;
+}
+
+.eventTitle {
+  font-family: var(--font-playfair);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  margin-bottom: 12px;
+}
+
+.eventDesc {
+  font-family: var(--font-garamond);
+  font-size: 1.1rem;
+  color: var(--carbon-medio);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.eventButton {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--verde-medio);
+  color: var(--verde-profundo);
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.eventButton:hover {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+}
+
+@media (max-width: 768px) {
+  .eventCard, .eventCard.hasImage {
+    grid-template-columns: 1fr;
+  }
+  
+  .dateBadge {
+    flex-direction: row;
+    gap: 12px;
+    padding: 1.5rem;
+  }
+  
+  .dateDay {
+    font-size: 2rem;
+  }
+  
+  .eventImageWrapper {
+    border-right: none;
+    border-bottom: 0.5px solid var(--crema-oscura);
+  }
+  
+  .eventContent {
+    padding: 1.5rem;
+  }
+}
