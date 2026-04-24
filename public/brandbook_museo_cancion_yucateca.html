@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brandbook · Museo de la Canción Yucateca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --verde-profundo: #1A4A2E;
+    --verde-institucional: #2D6A4F;
+    --verde-medio: #40916C;
+    --verde-claro: #74C69D;
+    --verde-musgo: #1B4332;
+    --crema-base: #F5F0E8;
+    --crema-calida: #EDE8DC;
+    --crema-oscura: #D9D0BE;
+    --dorado: #B8860B;
+    --dorado-claro: #D4A017;
+    --dorado-palido: #F0D080;
+    --carbon: #1C1C1A;
+    --carbon-medio: #2E2E2C;
+    --marfil-texto: #F7F3EC;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--crema-base);
+    color: var(--carbon);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    background: var(--verde-profundo);
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 2px solid var(--dorado);
+  }
+  .nav button {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--crema-oscura);
+    background: none;
+    border: none;
+    padding: 14px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav button:hover { color: var(--dorado-palido); }
+  .nav button.active { color: var(--dorado); border-bottom-color: var(--dorado); }
+
+  /* SECTIONS */
+  .section { display: none; padding: 0 0 60px; }
+  .section.active { display: block; }
+
+  /* COVER */
+  .cover {
+    background: var(--verde-profundo);
+    color: var(--crema-base);
+    padding: 72px 56px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,160,23,0.15);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,160,23,0.10);
+  }
+  .cover-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--crema-base);
+    margin-bottom: 8px;
+  }
+  .cover h1 em {
+    font-style: italic;
+    color: var(--dorado-palido);
+  }
+  .cover-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--crema-oscura);
+    margin-top: 14px;
+    margin-bottom: 40px;
+  }
+  .cover-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--dorado);
+    margin-bottom: 28px;
+  }
+  .cover-meta {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: rgba(245,240,232,0.45);
+  }
+
+  /* INTRO COVER */
+  .cover-intro {
+    padding: 44px 56px;
+    background: var(--crema-calida);
+  }
+  .cover-intro p {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-style: italic;
+    color: var(--verde-profundo);
+    line-height: 1.75;
+    max-width: 620px;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    background: var(--carbon);
+    color: var(--crema-base);
+    padding: 44px 56px 36px;
+    margin-bottom: 44px;
+  }
+  .section-header .label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 10px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--crema-base);
+  }
+
+  /* CONTENT */
+  .content { padding: 0 56px; }
+  .block { margin-bottom: 52px; }
+  .block-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--verde-medio);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--crema-oscura);
+  }
+
+  /* IDENTITY */
+  .essence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .essence-card {
+    padding: 32px;
+    background: var(--crema-calida);
+    border-top: 3px solid var(--dorado);
+  }
+  .essence-card.dark {
+    background: var(--verde-profundo);
+    border-top-color: var(--dorado);
+  }
+  .essence-card-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 12px;
+  }
+  .essence-card.dark .essence-card-label { color: var(--dorado-palido); opacity: 0.85; }
+  .essence-card-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--verde-profundo);
+  }
+  .essence-card.dark .essence-card-value { color: var(--crema-base); }
+
+  .mission-box {
+    background: var(--verde-profundo);
+    padding: 40px 44px;
+    position: relative;
+  }
+  .mission-box::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 90px;
+    color: var(--dorado);
+    opacity: 0.25;
+    position: absolute;
+    top: 8px; left: 30px;
+    line-height: 1;
+  }
+  .mission-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-style: italic;
+    color: var(--crema-base);
+    line-height: 1.65;
+    position: relative;
+    z-index: 1;
+    padding-left: 24px;
+  }
+
+  .pillars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-top: 2px; }
+  .pillar { background: var(--crema-calida); padding: 28px 24px; border-top: 3px solid var(--verde-medio); }
+  .pillar-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--verde-claro);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .pillar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--verde-profundo);
+    margin-bottom: 10px;
+  }
+  .pillar-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--carbon-medio);
+    line-height: 1.65;
+  }
+
+  .audience-row { display: grid; grid-template-columns: 200px 1fr; gap: 0; margin-bottom: 2px; }
+  .audience-label {
+    background: var(--verde-profundo);
+    color: var(--crema-base);
+    padding: 22px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+  }
+  .audience-desc {
+    background: var(--crema-calida);
+    padding: 22px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--carbon-medio);
+    line-height: 1.65;
+    display: flex;
+    align-items: center;
+  }
+
+  /* COLORS */
+  .palette-primary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 2px; }
+  .palette-accent { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .swatch-color { height: 88px; }
+  .swatch-info { background: white; padding: 12px 14px; }
+  .swatch-name { font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; color: var(--carbon); margin-bottom: 3px; }
+  .swatch-hex { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; color: #666; letter-spacing: 0.05em; }
+  .swatch-role { font-family: 'Jost', sans-serif; font-size: 11px; color: #999; margin-top: 3px; }
+
+  .color-rule {
+    background: var(--crema-calida);
+    border-left: 3px solid var(--dorado);
+    padding: 18px 22px;
+    margin-bottom: 8px;
+  }
+  .color-rule-title { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; color: var(--verde-profundo); margin-bottom: 6px; }
+  .color-rule-desc { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: var(--carbon-medio); line-height: 1.6; }
+
+  /* TYPOGRAPHY */
+  .type-specimen { background: var(--crema-calida); padding: 36px 40px; margin-bottom: 2px; }
+  .type-meta {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--verde-medio);
+    margin-bottom: 20px;
+  }
+
+  /* CSS spec block */
+  .type-row {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 0 32px;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 0.5px solid var(--crema-oscura);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-row-sample { min-width: 0; }
+  .type-row-attrs {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.9;
+    white-space: nowrap;
+    border-left: 1px solid var(--crema-oscura);
+    padding-left: 20px;
+    flex-shrink: 0;
+  }
+  .type-row-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 6px;
+  }
+
+  /* VOICE */
+  .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .voice-card { padding: 28px 30px; }
+  .voice-do { background: #EEF5F0; border-top: 3px solid var(--verde-medio); }
+  .voice-dont { background: #F9F0EE; border-top: 3px solid #C0392B; }
+  .voice-card-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .voice-do .voice-card-label { color: var(--verde-medio); }
+  .voice-dont .voice-card-label { color: #C0392B; }
+  .voice-example {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--carbon);
+    margin-bottom: 10px;
+  }
+  .voice-note { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: #666; line-height: 1.5; }
+
+  .tone-pill {
+    display: inline-block;
+    padding: 7px 18px;
+    background: var(--verde-profundo);
+    color: var(--crema-base);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    margin: 4px 3px;
+    border: 1px solid transparent;
+  }
+  .tone-pill.outline {
+    background: transparent;
+    border-color: var(--verde-medio);
+    color: var(--verde-profundo);
+  }
+
+  /* LOGO */
+  .logo-field { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+  .logo-box {
+    display: flex; align-items: center; justify-content: center;
+    padding: 52px 40px; min-height: 200px;
+  }
+  .logo-box.light { background: var(--crema-base); }
+  .logo-box.dark { background: var(--verde-profundo); }
+  .logo-box.crema { background: var(--crema-calida); }
+  .logo-box.blk { background: var(--carbon); }
+  .logo-circle {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .logo-circle.green { border: 2px solid var(--verde-institucional); color: var(--verde-institucional); }
+  .logo-circle.cream { border: 2px solid var(--crema-base); color: var(--crema-base); }
+  .logo-caption { font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-top: 6px; text-align: center; }
+
+  .logo-rule {
+    background: var(--crema-calida);
+    padding: 20px 24px;
+    border-left: 3px solid var(--verde-claro);
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .logo-rule-icon { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--verde-medio); }
+  .logo-rule-text { font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--carbon-medio); line-height: 1.6; }
+  .logo-rule-text strong { font-weight: 500; color: var(--carbon); }
+
+  /* IMAGERY */
+  .imagery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  .imagery-card { background: var(--crema-calida); overflow: hidden; }
+  .imagery-preview { height: 130px; display: flex; align-items: center; justify-content: center; }
+  .imagery-info { padding: 18px 20px; }
+  .imagery-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--verde-profundo); margin-bottom: 8px; }
+  .imagery-desc { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: var(--carbon-medio); line-height: 1.6; }
+
+  /* APPLICATIONS */
+  .app-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .app-card { padding: 30px 32px; }
+  .app-card.email { background: var(--crema-calida); }
+  .app-card.social { background: var(--verde-profundo); color: var(--crema-base); }
+  .app-card-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .email .app-card-label { color: var(--verde-medio); }
+  .social .app-card-label { color: var(--dorado); }
+  .email-header { border-bottom: 0.5px solid var(--crema-oscura); padding-bottom: 14px; margin-bottom: 16px; }
+  .email-from { font-family: 'Jost', sans-serif; font-size: 12px; color: #888; margin-bottom: 5px; }
+  .email-subject { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--verde-profundo); }
+  .email-body { font-family: 'EB Garamond', serif; font-size: 16px; color: var(--carbon-medio); line-height: 1.75; }
+  .social-post { border: 0.5px solid rgba(245,240,232,0.15); padding: 20px; }
+  .social-handle { font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; color: var(--dorado); margin-bottom: 12px; }
+  .social-text { font-family: 'EB Garamond', serif; font-size: 17px; font-style: italic; color: var(--crema-base); line-height: 1.65; margin-bottom: 12px; }
+  .social-tags { font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 300; color: var(--verde-claro); }
+
+  .checklist-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+  .checklist-box { width: 18px; height: 18px; border: 1.5px solid var(--verde-medio); flex-shrink: 0; margin-top: 2px; }
+  .checklist-text { font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--carbon-medio); line-height: 1.6; }
+
+  /* EDITORIAL NOTE */
+  .editorial-note {
+    background: var(--crema-calida);
+    border-left: 4px solid var(--dorado);
+    padding: 32px 36px;
+  }
+  .editorial-note-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 14px;
+  }
+  .editorial-note-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--verde-profundo);
+    margin-bottom: 14px;
+  }
+  .editorial-note-body {
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    color: var(--carbon-medio);
+    line-height: 1.75;
+    max-width: 560px;
+  }
+  .editorial-note-principles {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+  .editorial-note-principle {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--carbon-medio);
+    padding-left: 16px;
+    border-left: 2px solid var(--verde-claro);
+    line-height: 1.55;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="active" onclick="show('cover')">Inicio</button>
+  <button onclick="show('identity')">Identidad</button>
+  <button onclick="show('color')">Color</button>
+  <button onclick="show('type')">Tipografía</button>
+  <button onclick="show('voice')">Voz y tono</button>
+  <button onclick="show('logo')">Logo</button>
+  <button onclick="show('imagery')">Imágenes</button>
+  <button onclick="show('apply')">Aplicaciones</button>
+</nav>
+
+<!-- ============================================================ COVER -->
+<section class="section active" id="cover">
+  <div class="cover">
+    <p class="cover-label">Brandbook · Edición 2025</p>
+    <h1>Museo de la<br><em>Canción Yucateca</em></h1>
+    <p class="cover-sub">Guía de Identidad de Marca</p>
+    <div class="cover-divider"></div>
+    <p class="cover-meta">Museo de la Canción Yucateca, A.C. · Mérida, Yucatán · México</p>
+  </div>
+  <div class="cover-intro">
+    <p>Este documento define los principios que guían la identidad visual y comunicativa del Museo de la Canción Yucateca. Es la referencia única para cualquier pieza de comunicación, digital o impresa.</p>
+  </div>
+</section>
+
+<!-- ============================================================ IDENTITY -->
+<section class="section" id="identity">
+  <div class="section-header">
+    <p class="label">Capítulo 01</p>
+    <h2>Identidad de Marca</h2>
+  </div>
+  <div class="content">
+
+    <div class="block">
+      <p class="block-title">Esencia</p>
+      <div class="essence-grid">
+        <div class="essence-card dark">
+          <p class="essence-card-label">Propósito</p>
+          <p class="essence-card-value">Preservar el alma musical de Yucatán y encenderla en cada nueva generación.</p>
+        </div>
+        <div class="essence-card dark">
+          <p class="essence-card-label">Posicionamiento</p>
+          <p class="essence-card-value">El guardián vivo de la tradición musical yucateca.</p>
+        </div>
+        <div class="essence-card">
+          <p class="essence-card-label">Personalidad</p>
+          <p class="essence-card-value">Culto, apasionado, orgulloso de su linaje. Accesible sin ser populista.</p>
+        </div>
+        <div class="essence-card">
+          <p class="essence-card-label">Promesa de marca</p>
+          <p class="essence-card-value">Un espacio donde el pasado canta y el futuro escucha.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Misión</p>
+      <div class="mission-box">
+        <p class="mission-text">Somos el espacio vivo donde el patrimonio musical de Yucatán se preserva, se cuenta y se hereda — cultivando en las nuevas generaciones la pasión por la canción que define nuestra identidad colectiva.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Pilares institucionales</p>
+      <div class="pillars">
+        <div class="pillar">
+          <p class="pillar-num">01</p>
+          <p class="pillar-title">Patrimonio</p>
+          <p class="pillar-desc">Somos custodios de un legado musical irrepetible. Cada pieza, cada nombre, cada melodía es historia viva.</p>
+        </div>
+        <div class="pillar">
+          <p class="pillar-num">02</p>
+          <p class="pillar-title">Orgullo</p>
+          <p class="pillar-desc">La canción yucateca es un estandarte cultural de México. La llevamos con la distinción que merece.</p>
+        </div>
+        <div class="pillar">
+          <p class="pillar-num">03</p>
+          <p class="pillar-title">Continuidad</p>
+          <p class="pillar-desc">Sin públicos jóvenes no hay futuro. La tradición se renueva cuando se comparte con emoción.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Audiencias principales</p>
+      <div class="audience-row">
+        <div class="audience-label">Comunidad yucateca</div>
+        <div class="audience-desc">El corazón de la marca. Personas con arraigo cultural profundo y orgullo de su identidad. La marca debe sentirse como suya — digna, sin condescendencia.</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Juventud local</div>
+        <div class="audience-desc">Se les seduce con emoción y relevancia, no con nostalgia. La marca debe demostrar que esta música vive hoy.</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Turistas culturales</div>
+        <div class="audience-desc">Buscan autenticidad y profundidad. El museo representa un acceso privilegiado a la Mérida "no turística".</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Expats (EUA / Canadá)</div>
+        <div class="audience-desc">En proceso de absorber la cultura local. Aprecian sofisticación y accesibilidad. Son embajadores potenciales si se enamoran.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ COLOR -->
+<section class="section" id="color">
+  <div class="section-header">
+    <p class="label">Capítulo 02</p>
+    <h2>Sistema de Color</h2>
+  </div>
+  <div class="content">
+
+    <div class="block">
+      <p class="block-title">Paleta primaria</p>
+      <div class="palette-primary">
+        <div>
+          <div class="swatch-color" style="background:#1A4A2E;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Verde Profundo</p>
+            <p class="swatch-hex">#1A4A2E</p>
+            <p class="swatch-role">Fondos oscuros, nav</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#2D6A4F;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Verde Institucional</p>
+            <p class="swatch-hex">#2D6A4F</p>
+            <p class="swatch-role">Color principal de marca</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#40916C;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Verde Medio</p>
+            <p class="swatch-hex">#40916C</p>
+            <p class="swatch-role">Acentos, etiquetas</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#F5F0E8; border: 0.5px solid #ddd;"></div>
+          <div class="swatch-info" style="border: 0.5px solid #eee;">
+            <p class="swatch-name">Crema Base</p>
+            <p class="swatch-hex">#F5F0E8</p>
+            <p class="swatch-role">Fondo principal claro</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#EDE8DC; border: 0.5px solid #ddd;"></div>
+          <div class="swatch-info" style="border: 0.5px solid #eee;">
+            <p class="swatch-name">Crema Cálida</p>
+            <p class="swatch-hex">#EDE8DC</p>
+            <p class="swatch-role">Fondos secundarios</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Paleta de acento</p>
+      <div class="palette-accent">
+        <div>
+          <div class="swatch-color" style="background:#B8860B;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Dorado</p>
+            <p class="swatch-hex">#B8860B</p>
+            <p class="swatch-role">Acento principal, CTA</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#D4A017;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Dorado Claro</p>
+            <p class="swatch-hex">#D4A017</p>
+            <p class="swatch-role">Hover, highlights</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#F0D080; border: 0.5px solid #ddd;"></div>
+          <div class="swatch-info" style="border: 0.5px solid #eee;">
+            <p class="swatch-name">Dorado Pálido</p>
+            <p class="swatch-hex">#F0D080</p>
+            <p class="swatch-role">Texto sobre fondos oscuros</p>
+          </div>
+        </div>
+        <div>
+          <div class="swatch-color" style="background:#1C1C1A;"></div>
+          <div class="swatch-info">
+            <p class="swatch-name">Carbón</p>
+            <p class="swatch-hex">#1C1C1A</p>
+            <p class="swatch-role">Texto principal, footer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Reglas de uso</p>
+      <div class="color-rule">
+        <p class="color-rule-title">Combinaciones permitidas de fondo</p>
+        <p class="color-rule-desc">Verde Profundo + texto crema · Verde Institucional + texto crema · Crema Base + texto carbón · Crema Cálida + texto carbón · Carbón + texto crema. Estas son las únicas superficies de fondo autorizadas para secciones amplias.</p>
+      </div>
+      <div class="color-rule">
+        <p class="color-rule-title">El dorado es un acento — no un fondo</p>
+        <p class="color-rule-desc">El dorado aparece únicamente como: línea divisora, borde superior de tarjeta, color de botón CTA (tamaño contenido), texto de etiqueta sobre fondos verdes oscuros, o detalle ornamental. Nunca como fondo de sección amplia ni como color dominante.</p>
+      </div>
+      <div class="color-rule">
+        <p class="color-rule-title">Lo que se elimina</p>
+        <p class="color-rule-desc">Café oscuro (#5D4037 y similares) como color de apoyo. Da tonalidad "empobrecida" y contradice el prestigio de la marca. Si se necesita un neutro oscuro, usar Carbón (#1C1C1A).</p>
+      </div>
+      <div class="color-rule">
+        <p class="color-rule-title">Proporción recomendada</p>
+        <p class="color-rule-desc">60% crema / fondos claros · 30% verdes · 10% dorado como acento. La escasez del dorado es lo que lo hace impactar.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Combinaciones en uso</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+
+        <!-- Combo A: Verde profundo + crema -->
+        <div style="background: #1A4A2E; padding: 32px 36px;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#B8860B; margin-bottom:10px;">Combinación A · Fondo verde profundo</p>
+          <p style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#F5F0E8; line-height:1.2; margin-bottom:8px;">Canción yucateca</p>
+          <p style="font-family:'EB Garamond',serif; font-size:17px; font-style:italic; color:#D9D0BE;">Patrimonio musical de México.</p>
+          <div style="margin-top:18px; display:inline-block; padding:9px 20px; background:#B8860B; font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#1C1C1A;">Visitar el museo</div>
+        </div>
+
+        <!-- Combo B: Crema base + verde -->
+        <div style="background: #F5F0E8; padding: 32px 36px; border: 0.5px solid #D9D0BE;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#40916C; margin-bottom:10px;">Combinación B · Fondo crema base</p>
+          <p style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#1A4A2E; line-height:1.2; margin-bottom:8px;">Canción yucateca</p>
+          <p style="font-family:'EB Garamond',serif; font-size:17px; font-style:italic; color:#2E2E2C;">Patrimonio musical de México.</p>
+          <div style="margin-top:18px; display:inline-block; padding:9px 20px; border:1.5px solid #1A4A2E; font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#1A4A2E;">Explorar colección</div>
+        </div>
+
+        <!-- Combo C: El dorado como acento (correcto) -->
+        <div style="background: #EDE8DC; padding: 32px 36px; border: 0.5px solid #D9D0BE;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#40916C; margin-bottom:10px;">Combinación C · El dorado como acento</p>
+          <!-- Línea dorada como acento, no como fondo -->
+          <div style="border-top:3px solid #B8860B; padding-top:14px; margin-bottom:14px;">
+            <p style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#1A4A2E; line-height:1.2; margin-bottom:8px;">Próximos eventos</p>
+            <p style="font-family:'EB Garamond',serif; font-size:17px; font-style:italic; color:#2E2E2C;">Jueves 10 de julio · 18:00 h</p>
+          </div>
+          <div style="display:inline-block; padding:9px 20px; background:#B8860B; font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#1C1C1A;">Reservar lugar</div>
+        </div>
+
+        <!-- Combo D: Carbón + crema -->
+        <div style="background: #1C1C1A; padding: 32px 36px;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#B8860B; margin-bottom:10px;">Combinación D · Fondo carbón</p>
+          <p style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#F5F0E8; line-height:1.2; margin-bottom:8px;">Colección permanente</p>
+          <p style="font-family:'EB Garamond',serif; font-size:17px; font-style:italic; color:#D9D0BE;">Para secciones de alto contraste.</p>
+          <div style="margin-top:18px; display:inline-block; padding:9px 20px; border:1px solid rgba(245,240,232,0.35); font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#F5F0E8;">Ver colección</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ TYPOGRAPHY -->
+<section class="section" id="type">
+  <div class="section-header">
+    <p class="label">Capítulo 03</p>
+    <h2>Tipografía</h2>
+  </div>
+  <div class="content">
+
+    <!-- PLAYFAIR -->
+    <div class="block">
+      <p class="block-title">Familia primaria · Playfair Display</p>
+      <div class="type-specimen">
+        <p class="type-meta">Títulos, subtítulos y citas · Google Fonts · Serif clásico</p>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">H1</p>
+            <p style="font-family:'Playfair Display',serif; font-size:48px; font-weight:700; color:#1A4A2E; line-height:1.1;">Canción Yucateca</p>
+          </div>
+          <div class="type-row-attrs">48px · 700 · lh 1.1</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">H2</p>
+            <p style="font-family:'Playfair Display',serif; font-size:36px; font-weight:600; color:#1A4A2E; line-height:1.2;">Colección permanente</p>
+          </div>
+          <div class="type-row-attrs">36px · 600 · lh 1.2</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">H3</p>
+            <p style="font-family:'Playfair Display',serif; font-size:26px; font-weight:600; color:#1A4A2E; line-height:1.3;">Sala de compositores</p>
+          </div>
+          <div class="type-row-attrs">26px · 600 · lh 1.3</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">H4</p>
+            <p style="font-family:'Playfair Display',serif; font-size:20px; font-weight:600; color:#1A4A2E; line-height:1.35;">Ricardo Palmerín, compositor</p>
+          </div>
+          <div class="type-row-attrs">20px · 600 · lh 1.35</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Cita / Quote</p>
+            <p style="font-family:'Playfair Display',serif; font-size:22px; font-style:italic; font-weight:400; color:#40916C; line-height:1.6;">"La Peregrina no es solo una canción."</p>
+          </div>
+          <div class="type-row-attrs">22px · 400 · italic<br>lh 1.6 · verde-medio</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EB GARAMOND -->
+    <div class="block">
+      <p class="block-title">Familia secundaria · EB Garamond</p>
+      <div class="type-specimen">
+        <p class="type-meta">Párrafos y contenido editorial · Google Fonts · Serif legible</p>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Body L · Introducción / destacados</p>
+            <p style="font-family:'EB Garamond',serif; font-size:22px; font-weight:400; color:#1C1C1A; line-height:1.8;">El Museo de la Canción Yucateca es el espacio donde el repertorio musical de Yucatán cobra vida.</p>
+          </div>
+          <div class="type-row-attrs">22px · 400 · lh 1.8</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Body M · Cuerpo principal</p>
+            <p style="font-family:'EB Garamond',serif; font-size:18px; font-weight:400; color:#1C1C1A; line-height:1.75;">Desde las habaneras y bambucos hasta los boleros tropicales, cada sala cuenta una historia de compositores visionarios y voces inmortales que forjaron la identidad de un pueblo.</p>
+          </div>
+          <div class="type-row-attrs">18px · 400 · lh 1.75</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Body S · Apoyo, pies de foto</p>
+            <p style="font-family:'EB Garamond',serif; font-size:16px; font-weight:400; color:#2E2E2C; line-height:1.7;">Fotografía ca. 1930. Colección del Museo de la Canción Yucateca, A.C.</p>
+          </div>
+          <div class="type-row-attrs">16px · 400 · lh 1.7<br><span style="color:#aaa;">mínimo permitido</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Itálica · Nombres y citas en párrafo</p>
+            <p style="font-family:'EB Garamond',serif; font-size:18px; font-style:italic; color:#1C1C1A; line-height:1.75;">La canción <em>Peregrina</em> fue compuesta por Ricardo Palmerín en 1923.</p>
+          </div>
+          <div class="type-row-attrs">font-style: italic<br>mismo tamaño del párrafo</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- JOST -->
+    <div class="block">
+      <p class="block-title">Familia de interfaz · Jost</p>
+      <div class="type-specimen">
+        <p class="type-meta">Navegación, botones y UI · Google Fonts · Sans-serif · Solo para elementos de interfaz</p>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Nav Link · Menú principal</p>
+            <p style="font-family:'Jost',sans-serif; font-size:15px; font-weight:400; color:#2E2E2C; letter-spacing:0.05em;">Exposiciones · Eventos · Colección · Nosotros · Visita</p>
+          </div>
+          <div class="type-row-attrs">15px · 400<br>ls 0.05em</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">UI Label · Etiquetas de sección</p>
+            <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:#40916C;">Colección permanente</p>
+          </div>
+          <div class="type-row-attrs">11px · 500 · uppercase<br>ls 0.22em · verde-medio</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">Botón CTA</p>
+            <div style="display:inline-block; padding:10px 22px; background:#B8860B; font-family:'Jost',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:#1C1C1A;">Planear mi visita</div>
+          </div>
+          <div class="type-row-attrs">12px · 500 · uppercase<br>ls 0.14em</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">UI Meta · Fechas y datos</p>
+            <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; letter-spacing:0.04em; color:#888;">Jueves, 10 de julio · 18:00 h · Entrada libre</p>
+          </div>
+          <div class="type-row-attrs">14px · 300 · ls 0.04em<br>color #888</div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-row-sample">
+            <p class="type-row-label">UI Small · Leyendas auxiliares</p>
+            <p style="font-family:'Jost',sans-serif; font-size:12px; font-weight:300; letter-spacing:0.06em; color:#aaa;">Museo de la Canción Yucateca, A.C. · Mérida, Yucatán</p>
+          </div>
+          <div class="type-row-attrs">12px · 300 · ls 0.06em</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- REGLA DE USO -->
+    <div class="block">
+      <p class="block-title">Regla fundamental de uso</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;">
+        <div style="background: var(--verde-profundo); padding: 28px; text-align: center;">
+          <p style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:#F5F0E8; margin-bottom:10px;">Pl</p>
+          <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#B8860B; margin-bottom:8px;">Playfair Display</p>
+          <p style="font-family:'Jost',sans-serif; font-size:13px; font-weight:300; color:#D9D0BE;">Títulos · Subtítulos · Citas</p>
+        </div>
+        <div style="background: var(--crema-calida); padding: 28px; text-align: center; border: 0.5px solid #D9D0BE;">
+          <p style="font-family:'EB Garamond',serif; font-size:36px; font-weight:400; color:#1C1C1A; margin-bottom:10px;">Eb</p>
+          <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#40916C; margin-bottom:8px;">EB Garamond</p>
+          <p style="font-family:'Jost',sans-serif; font-size:13px; font-weight:300; color:#888;">Párrafos · Descripciones · Editorial</p>
+        </div>
+        <div style="background: var(--carbon); padding: 28px; text-align: center;">
+          <p style="font-family:'Jost',sans-serif; font-size:36px; font-weight:300; color:#F5F0E8; margin-bottom:10px;">Jo</p>
+          <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#B8860B; margin-bottom:8px;">Jost</p>
+          <p style="font-family:'Jost',sans-serif; font-size:13px; font-weight:300; color:#D9D0BE;">Nav · Botones · Etiquetas · UI</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ VOICE -->
+<section class="section" id="voice">
+  <div class="section-header">
+    <p class="label">Capítulo 04</p>
+    <h2>Voz y Tono</h2>
+  </div>
+  <div class="content">
+
+    <div class="block">
+      <p class="block-title">Atributos de voz</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 8px;">
+        <span class="tone-pill">Culto</span>
+        <span class="tone-pill">Apasionado</span>
+        <span class="tone-pill">Orgulloso</span>
+        <span class="tone-pill">Accesible</span>
+        <span class="tone-pill outline">Cálido</span>
+        <span class="tone-pill outline">Evocador</span>
+        <span class="tone-pill outline">Preciso</span>
+        <span class="tone-pill outline">Digno</span>
+      </div>
+      <p style="font-family:'Jost',sans-serif; font-size:13px; font-weight:300; color:#888; margin-top:10px;">Relleno = atributo principal · Contorno = atributo de apoyo</p>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Ejemplos de tono · Correcto vs. Incorrecto</p>
+      <div class="voice-grid">
+        <div class="voice-card voice-do">
+          <p class="voice-card-label">Sí decimos</p>
+          <p class="voice-example">"Descubre el universo sonoro que dio voz a Yucatán durante más de un siglo de historia musical."</p>
+          <p class="voice-note">Evocador, con orgullo implícito. Invita sin gritar.</p>
+        </div>
+        <div class="voice-card voice-dont">
+          <p class="voice-card-label">No decimos</p>
+          <p class="voice-example">"¡Ven a conocer nuestra súper expo de música típica yucateca! 🎸"</p>
+          <p class="voice-note">Tono informal que contradice el prestigio institucional.</p>
+        </div>
+        <div class="voice-card voice-do">
+          <p class="voice-card-label">Sí decimos</p>
+          <p class="voice-example">"Guido Perera, Ricardo Palmerín, Augusto Cáceres Navarro — nombres que son parte del alma de México."</p>
+          <p class="voice-note">Nombrar compositores afirma autoridad y educación.</p>
+        </div>
+        <div class="voice-card voice-dont">
+          <p class="voice-card-label">No decimos</p>
+          <p class="voice-example">"Tenemos música antigua muy bonita y fotos de compositores famosos de antes."</p>
+          <p class="voice-note">Lenguaje vago que minimiza el valor del patrimonio.</p>
+        </div>
+        <div class="voice-card voice-do">
+          <p class="voice-card-label">Sí decimos</p>
+          <p class="voice-example">"La Peregrina no es solo una canción — es el instante en que Yucatán se volvió universal."</p>
+          <p class="voice-note">Profundidad con emoción. Funciona para jóvenes y adultos.</p>
+        </div>
+        <div class="voice-card voice-dont">
+          <p class="voice-card-label">No decimos</p>
+          <p class="voice-example">"Estamos en el centro de Mérida, ¡visítanos pronto, no te arrepentirás!"</p>
+          <p class="voice-note">Exclamaciones forzadas y lenguaje de mercado de pulgas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Tono por canal</p>
+      <div class="audience-row">
+        <div class="audience-label">Sitio web</div>
+        <div class="audience-desc">Culto y editorial. Frases completas, estructura narrativa. Evitar bullet points en textos de identidad. Prosa con cadencia musical.</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Redes sociales</div>
+        <div class="audience-desc">Más cercano y emocional, sin perder elegancia. Frases cortas e impactantes. Siempre anclar en el patrimonio o en personas reales.</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Comunicados</div>
+        <div class="audience-desc">Institucional y preciso. Voz en tercera persona. Playfair Display para títulos. Siempre firmar como "Museo de la Canción Yucateca, A.C."</div>
+      </div>
+      <div class="audience-row">
+        <div class="audience-label">Visita presencial</div>
+        <div class="audience-desc">Cálido y hospitalario. Guías y carteles en segunda persona respetuosa (usted para adultos mayores, tú para jóvenes y extranjeros).</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Bilingüismo · Español / Inglés</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+        <div style="background: var(--verde-profundo); padding: 32px 34px;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#B8860B; margin-bottom:14px;">Español</p>
+          <p style="font-family:'Playfair Display',serif; font-size:19px; font-style:italic; color:#F5F0E8; line-height:1.7;">"La canción yucateca es poesía con melodía — el alma de un pueblo que eligió expresarse cantando."</p>
+        </div>
+        <div style="background: var(--crema-calida); padding: 32px 34px; border: 0.5px solid #D9D0BE;">
+          <p style="font-family:'Jost',sans-serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#40916C; margin-bottom:14px;">English</p>
+          <p style="font-family:'Playfair Display',serif; font-size:19px; font-style:italic; color:#1A4A2E; line-height:1.7;">"The Yucatecan song is poetry set to music — the soul of a people who chose to express themselves through song."</p>
+        </div>
+      </div>
+      <div style="background: var(--crema-calida); padding: 18px 22px; border-left: 3px solid var(--dorado); margin-top: 2px;">
+        <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:var(--carbon-medio); line-height:1.65;">La versión en inglés debe ser una adaptación cultural, no una traducción literal. El tono debe preservar la dignidad poética del original. Nunca simplificar en inglés lo que en español es sofisticado.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ LOGO -->
+<section class="section" id="logo">
+  <div class="section-header">
+    <p class="label">Capítulo 05</p>
+    <h2>Uso del Logo</h2>
+  </div>
+  <div class="content">
+
+    <div class="block">
+      <p class="block-title">Variantes autorizadas</p>
+      <div class="logo-field">
+        <div class="logo-box light">
+          <div style="text-align:center;">
+            <div class="logo-circle green">Logo<br>MCY</div>
+            <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#2D6A4F;">Versión principal</p>
+            <p class="logo-caption">Sobre fondos crema o blancos</p>
+          </div>
+        </div>
+        <div class="logo-box dark">
+          <div style="text-align:center;">
+            <div class="logo-circle cream">Logo<br>MCY</div>
+            <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#F5F0E8;">Versión invertida</p>
+            <p class="logo-caption" style="color:#D9D0BE;">Sobre fondos verde oscuro</p>
+          </div>
+        </div>
+        <div class="logo-box crema">
+          <div style="text-align:center;">
+            <div class="logo-circle green">Logo<br>MCY</div>
+            <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#2D6A4F;">Versión editorial</p>
+            <p class="logo-caption">Sobre crema cálida</p>
+          </div>
+        </div>
+        <div class="logo-box blk">
+          <div style="text-align:center;">
+            <div class="logo-circle cream">Logo<br>MCY</div>
+            <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#D9D0BE;">Versión carbón</p>
+            <p class="logo-caption" style="color:#666;">Para materiales de alto contraste</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Espacio protegido y tamaño mínimo</p>
+      <div style="background: var(--crema-calida); padding: 36px; text-align: center; border: 0.5px solid #D9D0BE;">
+        <div style="display: inline-block; position: relative; padding: 32px; border: 1px dashed var(--verde-claro);">
+          <div style="width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--verde-institucional); display: flex; align-items: center; justify-content: center; font-family:'Playfair Display',serif; font-size:10px; font-style:italic; color:var(--verde-institucional); text-align:center; line-height:1.4;">Logo<br>MCY</div>
+          <div style="position:absolute; top:6px; left:50%; transform:translateX(-50%); font-family:'Jost',sans-serif; font-size:10px; color:var(--verde-medio); letter-spacing:0.08em;">X</div>
+          <div style="position:absolute; bottom:6px; left:50%; transform:translateX(-50%); font-family:'Jost',sans-serif; font-size:10px; color:var(--verde-medio);">X</div>
+          <div style="position:absolute; left:6px; top:50%; transform:translateY(-50%); font-family:'Jost',sans-serif; font-size:10px; color:var(--verde-medio);">X</div>
+          <div style="position:absolute; right:6px; top:50%; transform:translateY(-50%); font-family:'Jost',sans-serif; font-size:10px; color:var(--verde-medio);">X</div>
+        </div>
+        <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:#888; margin-top:18px; line-height:1.6;">Espacio mínimo protegido = X (altura de la letra M del logo).<br>Tamaño mínimo digital: 48px de diámetro · Tamaño mínimo impresión: 20 mm.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Reglas de uso</p>
+      <div class="logo-rule">
+        <span class="logo-rule-icon">✦</span>
+        <p class="logo-rule-text"><strong>No distorsionar.</strong> El logo siempre se reproduce en su proporción original. Nunca estirar horizontal ni verticalmente.</p>
+      </div>
+      <div class="logo-rule">
+        <span class="logo-rule-icon">✦</span>
+        <p class="logo-rule-text"><strong>No recolorear.</strong> El logo solo puede aparecer en verde institucional, blanco/crema, o negro. Nunca en otros colores, incluido el dorado.</p>
+      </div>
+      <div class="logo-rule">
+        <span class="logo-rule-icon">✦</span>
+        <p class="logo-rule-text"><strong>No colocar sobre fondos complejos</strong> sin una capa de aislamiento sólido. Nunca directo sobre fotografías sin un fondo de color.</p>
+      </div>
+      <div class="logo-rule">
+        <span class="logo-rule-icon">✦</span>
+        <p class="logo-rule-text"><strong>No agregar efectos.</strong> Sin sombras, brillos, contornos adicionales, gradientes ni transparencias sobre el logo.</p>
+      </div>
+      <div class="logo-rule">
+        <span class="logo-rule-icon">✦</span>
+        <p class="logo-rule-text"><strong>No modificar tipografía interna.</strong> El texto circular del logo es parte integral del símbolo. Nunca reemplazar ni redibujar.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ IMAGERY -->
+<section class="section" id="imagery">
+  <div class="section-header">
+    <p class="label">Capítulo 06</p>
+    <h2>Fotografía e Imágenes</h2>
+  </div>
+  <div class="content">
+
+    <div class="block">
+      <p class="block-title">Estilo fotográfico</p>
+      <div class="imagery-grid">
+        <div class="imagery-card">
+          <div class="imagery-preview" style="background: #2a2018;">
+            <div style="width:72px; height:92px; background:rgba(245,240,232,0.08); border:0.5px solid rgba(245,240,232,0.2); display:flex; align-items:center; justify-content:center;">
+              <div style="width:42px; height:58px; background:rgba(245,240,232,0.15);"></div>
+            </div>
+          </div>
+          <div class="imagery-info">
+            <p class="imagery-title">Archivo histórico</p>
+            <p class="imagery-desc">Fotografías en blanco y negro o sepia de compositores, músicos, partituras y momentos históricos. Tratar con máximo respeto y resolución óptima.</p>
+          </div>
+        </div>
+        <div class="imagery-card">
+          <div class="imagery-preview" style="background: #1A4A2E;">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <ellipse cx="32" cy="37" rx="15" ry="19" fill="none" stroke="rgba(245,240,232,0.4)" stroke-width="1.5"/>
+              <ellipse cx="32" cy="37" rx="5" ry="6" fill="rgba(245,240,232,0.2)"/>
+              <line x1="32" y1="18" x2="32" y2="10" stroke="rgba(245,240,232,0.4)" stroke-width="1.5"/>
+              <path d="M30 10 Q32 6 34 10" fill="none" stroke="rgba(212,160,23,0.7)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="imagery-info">
+            <p class="imagery-title">Instrumentos y objetos</p>
+            <p class="imagery-desc">Fotografía de detalle sobre fondos neutros. Iluminación dramática que resalte texturas. Siempre de frente o en ángulo que dignifique el objeto.</p>
+          </div>
+        </div>
+        <div class="imagery-card">
+          <div class="imagery-preview" style="background: #0d1f14;">
+            <div style="display:flex; gap:4px; align-items:flex-end;">
+              <div style="width:13px; height:52px; background:rgba(245,240,232,0.15); border:0.5px solid rgba(245,240,232,0.2);"></div>
+              <div style="width:13px; height:72px; background:rgba(245,240,232,0.15); border:0.5px solid rgba(245,240,232,0.2);"></div>
+              <div style="width:13px; height:42px; background:rgba(245,240,232,0.1); border:0.5px solid rgba(245,240,232,0.15);"></div>
+              <div style="width:13px; height:62px; background:rgba(245,240,232,0.15); border:0.5px solid rgba(245,240,232,0.2);"></div>
+            </div>
+          </div>
+          <div class="imagery-info">
+            <p class="imagery-title">Eventos y presentaciones</p>
+            <p class="imagery-desc">Fotografía documental de calidad. Buscar emoción en los rostros. Preferir tomas que muestren la relación artista-público. Evitar flash directo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Tratamiento cromático</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+        <div style="background: var(--crema-calida); padding: 24px 26px; border-top: 3px solid var(--verde-medio);">
+          <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--verde-medio); margin-bottom:12px;">Fotografía histórica</p>
+          <p style="font-family:'EB Garamond',serif; font-size:16px; color:var(--carbon-medio); line-height:1.7;">Conservar el tono original. Si se digitaliza, usar corrección sutil de contraste. Nunca colorizar artificialmente. El sepia y el blanco y negro son parte de la autenticidad.</p>
+        </div>
+        <div style="background: var(--crema-calida); padding: 24px 26px; border-top: 3px solid var(--dorado);">
+          <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--dorado); margin-bottom:12px;">Fotografía contemporánea</p>
+          <p style="font-family:'EB Garamond',serif; font-size:16px; color:var(--carbon-medio); line-height:1.7;">Tono cálido, ligeramente desaturado. Evitar filtros hiperprocesados. El color debe ser real y evocador, no artificial. Temperatura de color cálida (3800–4500 K).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="block-title">Lo que nunca usamos</p>
+      <div style="background: #F9F0EE; padding: 24px 28px; border-top: 3px solid #C0392B;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 36px;">
+          <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:var(--carbon-medio); padding-left:16px; border-left:2px solid #C0392B; line-height:1.6;">Imágenes de stock genéricas de "música" sin contexto yucateco</p>
+          <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:var(--carbon-medio); padding-left:16px; border-left:2px solid #C0392B; line-height:1.6;">Fotografías con filtros de Instagram o edición excesiva</p>
+          <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:var(--carbon-medio); padding-left:16px; border-left:2px solid #C0392B; line-height:1.6;">Imágenes pixeladas o de baja resolución en piezas principales</p>
+          <p style="font-family:'Jost',sans-serif; font-size:14px; font-weight:300; color:var(--carbon-medio); padding-left:16px; border-left:2px solid #C0392B; line-height:1.6;">Collages o composiciones digitales sin coherencia editorial</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ APPLICATIONS -->
+<section class="section" id="apply">
+  <div class="section-header">
+    <p class="label">Capítulo 07</p>
+    <h2>Aplicaciones de Marca</h2>
+  </div>
+  <div class="content">
+
+    <!-- NOTA EDITORIAL SITIO WEB -->
+    <div class="block">
+      <p class="block-title">Sitio web · Dirección editorial</p>
+      <div class="editorial-note">
+        <p class="editorial-note-label">Principios de diseño web</p>
+        <p class="editorial-note-title">Imagen y crema sobre densidad de color</p>
+        <p class="editorial-note-body">El sitio renovado privilegia la fotografía de archivo y la respiración visual sobre fondos verdes densos. La estructura se construye sobre crema, con el verde como acento de navegación y secciones especiales, y el dorado como guía de acción. El mockup de referencia se incluirá en este documento una vez aprobado el diseño de la primera propuesta de página.</p>
+        <div class="editorial-note-principles">
+          <p class="editorial-note-principle">Más imagen que color de fondo</p>
+          <p class="editorial-note-principle">Tipografía con jerarquía clara y generosa</p>
+          <p class="editorial-note-principle">Espaciado amplio entre secciones</p>
+          <p class="editorial-note-principle">Verde solo en nav, footer y secciones de énfasis</p>
+          <p class="editorial-note-principle">El dorado guía la acción (CTA, links)</p>
+          <p class="editorial-note-principle">Legible a 16px mínimo para público mayor</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIEZAS DIGITALES -->
+    <div class="block">
+      <p class="block-title">Piezas digitales · Post de Instagram y flyer de WhatsApp</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; align-items: start;">
+
+        <!-- POST INSTAGRAM 1:1 -->
+        <div>
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--verde-medio); margin-bottom:10px;">Post Instagram · 1080 × 1080 px</p>
+          <div style="aspect-ratio:1/1; background:#1A4A2E; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:32px;">
+            <!-- Decorative circle -->
+            <div style="position:absolute; bottom:-60px; right:-60px; width:220px; height:220px; border-radius:50%; border:1px solid rgba(184,134,11,0.2);"></div>
+            <div style="position:absolute; bottom:-40px; right:-40px; width:160px; height:160px; border-radius:50%; border:1px solid rgba(184,134,11,0.12);"></div>
+            <!-- Top: handle + logo mark -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <div>
+                <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#B8860B; margin-bottom:4px;">Música · Patrimonio</p>
+                <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:300; color:rgba(245,240,232,0.5); letter-spacing:0.08em;">@mcancionyucatecaac</p>
+              </div>
+              <div style="width:36px; height:36px; border-radius:50%; border:1.5px solid rgba(245,240,232,0.3); display:flex; align-items:center; justify-content:center;">
+                <p style="font-family:'Playfair Display',serif; font-size:9px; font-style:italic; color:#F5F0E8; text-align:center; line-height:1.2;">MCY</p>
+              </div>
+            </div>
+            <!-- Main content -->
+            <div>
+              <div style="width:40px; height:1.5px; background:#B8860B; margin-bottom:18px;"></div>
+              <p style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:#F5F0E8; line-height:1.15; margin-bottom:12px;">La Peregrina<br>cumple 100 años.</p>
+              <p style="font-family:'EB Garamond',serif; font-size:15px; font-style:italic; color:#D9D0BE; line-height:1.6; margin-bottom:20px;">Ricardo Palmerín escribió en 1923 la canción que llevaría a Yucatán al mundo.</p>
+              <p style="font-family:'Jost',sans-serif; font-size:11px; font-weight:300; color:rgba(184,134,11,0.8); letter-spacing:0.06em;">#CanciónYucateca · #Patrimonio · #Mérida</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLYER WHATSAPP 9:16 vertical -->
+        <div>
+          <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--verde-medio); margin-bottom:10px;">Flyer WhatsApp · 1080 × 1920 px (proporción)</p>
+          <div style="aspect-ratio:9/16; background:#F5F0E8; display:flex; flex-direction:column; overflow:hidden; border:0.5px solid #D9D0BE;">
+            <!-- Header verde -->
+            <div style="background:#1A4A2E; padding:20px 22px 18px; flex-shrink:0; border-bottom:3px solid #B8860B;">
+              <p style="font-family:'Jost',sans-serif; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#B8860B; margin-bottom:6px;">Museo de la Canción Yucateca</p>
+              <p style="font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:#F5F0E8; line-height:1.2;">Te invita a</p>
+            </div>
+            <!-- Image area simulada -->
+            <div style="background:#2a2018; flex:1; display:flex; align-items:center; justify-content:center; min-height:0;">
+              <div style="text-align:center; opacity:0.35;">
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                  <ellipse cx="24" cy="28" rx="11" ry="14" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+                  <line x1="24" y1="14" x2="24" y2="8" stroke="#F5F0E8" stroke-width="1.5"/>
+                  <path d="M22 8 Q24 5 26 8" fill="none" stroke="#B8860B" stroke-width="1"/>
+                </svg>
+                <p style="font-family:'Jost',sans-serif; font-size:9px; color:#F5F0E8; letter-spacing:0.1em; margin-top:6px;">fotografía del evento</p>
+              </div>
+            </div>
+            <!-- Event info -->
+            <div style="padding:18px 22px; flex-shrink:0; background:#F5F0E8;">
+              <p style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:#1A4A2E; line-height:1.2; margin-bottom:6px;">Noche de boleros yucatecos</p>
+              <p style="font-family:'EB Garamond',serif; font-size:14px; font-style:italic; color:#2E2E2C; line-height:1.6; margin-bottom:14px;">Un recorrido musical por las canciones que forjaron el alma de Yucatán.</p>
+              <div style="border-top:1px solid #D9D0BE; padding-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                  <p style="font-family:'Jost',sans-serif; font-size:9px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#40916C; margin-bottom:3px;">Fecha</p>
+                  <p style="font-family:'Jost',sans-serif; font-size:12px; font-weight:400; color:#1C1C1A;">Jueves 10 julio</p>
+                </div>
+                <div>
+                  <p style="font-family:'Jost',sans-serif; font-size:9px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:#40916C; margin-bottom:3px;">Hora</p>
+                  <p style="font-family:'Jost',sans-serif; font-size:12px; font-weight:400; color:#1C1C1A;">18:00 h</p>
+                </div>
+              </div>
+            </div>
+            <!-- CTA footer -->
+            <div style="background:#B8860B; padding:12px 22px; text-align:center; flex-shrink:0;">
+              <p style="font-family:'Jost',sans-serif; font-size:10px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#1C1C1A;">Entrada libre · museodelacancionyucateca.com</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- APLICACIONES ESCRITAS -->
+    <div class="block">
+      <p class="block-title">Email y Redes Sociales</p>
+      <div class="app-cards">
+        <div class="app-card email">
+          <p class="app-card-label">Comunicado institucional</p>
+          <div class="email-header">
+            <p class="email-from">De: info@museodelacancionyucateca.com</p>
+            <p class="email-subject">Nuevo ciclo de conciertos · Temporada 2025</p>
+          </div>
+          <p class="email-body">Estimados amigos del Museo,<br><br>Con profundo orgullo les anunciamos la apertura del nuevo ciclo de conciertos de la Temporada 2025, dedicado a los maestros del bolero yucateco…</p>
+        </div>
+        <div class="app-card social">
+          <p class="app-card-label">Post de redes sociales</p>
+          <div class="social-post">
+            <p class="social-handle">@mcancionyucatecaac</p>
+            <p class="social-text">"La Peregrina no nació en un estudio — nació en la nostalgia de un amor imposible y en la genialidad de Ricardo Palmerín. Ochenta años después, sigue recorriendo el mundo."</p>
+            <p class="social-tags">#CanciónYucateca #PatrimonioMusical #Mérida #CulturaYucatán</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="block">
+      <p class="block-title">Checklist de consistencia de marca</p>
+      <div style="background: var(--crema-calida); padding: 28px 32px;">
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿Usa únicamente Playfair Display, EB Garamond y Jost en sus roles correctos?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿Los colores de fondo provienen solo de: verde profundo, verde institucional, crema base, crema cálida o carbón?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿El dorado aparece exclusivamente como acento (línea, borde, botón, etiqueta) y nunca como fondo amplio?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿El tono de comunicación es culto, orgulloso y accesible — sin exclamaciones ni lenguaje informal excesivo?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿El logo aparece sin distorsiones, efectos ni recoloraciones no autorizadas?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿Las imágenes tienen tratamiento cálido y respetuoso del archivo histórico?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿La versión en inglés preserva el tono poético del original — sin simplificaciones?</p>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"></div>
+          <p class="checklist-text">¿Los tamaños de texto respetan los mínimos (Body S: 16px, UI Meta: 14px) para garantizar legibilidad al público mayor?</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const order = ['cover','identity','color','type','voice','logo','imagery','apply'];
+    document.querySelectorAll('.nav button')[order.indexOf(id)].classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

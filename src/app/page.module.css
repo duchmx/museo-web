@@ -1,142 +1,118 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
-}
-
 .main {
+  min-height: 100vh;
+}
+
+/* Hero Template (Combo A / Verde Profundo Base) */
+.hero {
+  position: relative;
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  min-height: 80vh;
   display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,160,23,0.15); /* Dorado Claro with opacity */
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroLabel {
+  font-family: var(--font-jost);
+  font-size: 11px;
   font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 24px;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.heroTitle {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--crema-base);
+  margin-bottom: 8px;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.heroTitle em {
+  font-style: italic;
+  color: var(--dorado-palido);
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.heroSub {
+  font-family: var(--font-garamond);
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--crema-oscura);
+  margin-top: 14px;
+  margin-bottom: 40px;
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.heroDivider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--dorado);
+  margin-bottom: 40px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+.heroButton {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--carbon);
+  background-color: var(--dorado);
+  border: none;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+.heroButton:hover {
+  background-color: var(--dorado-claro);
+}
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+/* Intro Section */
+.intro {
+  background-color: var(--crema-calida);
+  padding: 6rem 2rem;
+  text-align: center;
+  border-top: 3px solid var(--dorado);
+}
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+.introTitle {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  margin-bottom: 1.5rem;
+}
+
+.introText {
+  font-family: var(--font-garamond);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--carbon-medio);
+  max-width: 600px;
+  margin: 0 auto;
 }
