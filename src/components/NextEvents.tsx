@@ -24,8 +24,11 @@ export default function NextEvents({ events }: { events: Event[] }) {
         <div className={styles.grid}>
           {events.map(ev => {
             const date = new Date(ev.event_date);
-            const dateString = date.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' });
-            const timeString = date.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }) + ' h';
+            const tzOptions = { timeZone: 'America/Merida' };
+            const dateStringRaw = new Intl.DateTimeFormat('es-MX', { ...tzOptions, weekday: 'short', day: 'numeric', month: 'short' }).format(date);
+            const dateString = dateStringRaw.replace(/\./g, '');
+            const timeString = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(date) + ' h';
+            const day = new Intl.DateTimeFormat('es-MX', { ...tzOptions, day: 'numeric' }).format(date);
             
             return (
               <Link href="/agenda" key={ev.id} className={styles.card}>
@@ -34,7 +37,7 @@ export default function NextEvents({ events }: { events: Event[] }) {
                     <Image src={ev.image_url} alt={ev.title} fill className={styles.image} />
                   ) : (
                     <div className={styles.imagePlaceholder}>
-                      <span className={styles.dateDay}>{date.getDate()}</span>
+                      <span className={styles.dateDay}>{day}</span>
                     </div>
                   )}
                 </div>

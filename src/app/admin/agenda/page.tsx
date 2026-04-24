@@ -183,12 +183,15 @@ export default function AdminAgenda() {
             <div className={styles.eventsList}>
               {events.map(ev => {
                 const evDate = new Date(ev.event_date);
+                const tzOptions = { timeZone: 'America/Merida' };
+                const dateStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, year: 'numeric', month: '2-digit', day: '2-digit' }).format(evDate);
+                const timeStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(evDate);
                 return (
                   <div key={ev.id} className={styles.eventItem}>
                     <div className={styles.eventInfo}>
                       <h3>{ev.title}</h3>
                       <p className={styles.eventDate}>
-                        {evDate.toLocaleDateString('es-MX')} a las {evDate.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
+                        {dateStr} a las {timeStr}
                       </p>
                     </div>
                     <button onClick={() => handleDelete(ev.id)} className={styles.deleteButton}>Eliminar</button>

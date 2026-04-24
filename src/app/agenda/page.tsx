@@ -39,10 +39,11 @@ export default async function AgendaPage() {
           ) : (
             displayEvents.map(event => {
               const eventDate = new Date(event.event_date);
-              const day = eventDate.getDate();
-              const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-              const month = monthNames[eventDate.getMonth()];
-              const time = eventDate.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }) + ' h';
+              const tzOptions = { timeZone: 'America/Merida' };
+              const day = new Intl.DateTimeFormat('es-MX', { ...tzOptions, day: 'numeric' }).format(eventDate);
+              const monthStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, month: 'short' }).format(eventDate);
+              const month = monthStr.charAt(0).toUpperCase() + monthStr.slice(1).replace('.', '');
+              const time = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(eventDate) + ' h';
 
               return (
                 <article key={event.id} className={`${styles.eventCard} ${event.image_url ? styles.hasImage : ''}`}>
