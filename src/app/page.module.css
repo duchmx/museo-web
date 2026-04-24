@@ -1,118 +1,168 @@
 .main {
   min-height: 100vh;
-}
-
-/* Hero Template (Combo A / Verde Profundo Base) */
-.hero {
-  position: relative;
-  background-color: var(--verde-profundo);
-  color: var(--crema-base);
-  min-height: 80vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+}
+
+/* Quote Buffer */
+.quoteBuffer {
+  background-color: var(--verde-profundo);
+  padding: 6rem 2rem;
   text-align: center;
-  padding: 2rem;
-  overflow: hidden;
 }
 
-.heroOverlay {
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 300px; height: 300px;
-  border-radius: 50%;
-  border: 1px solid rgba(212,160,23,0.15); /* Dorado Claro with opacity */
-  pointer-events: none;
-}
-
-.heroContent {
-  position: relative;
-  z-index: 10;
+.quoteContainer {
   max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.heroLabel {
-  font-family: var(--font-jost);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--dorado);
-  margin-bottom: 24px;
-}
-
-.heroTitle {
+.quote {
   font-family: var(--font-playfair);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--crema-base);
-  margin-bottom: 8px;
-}
-
-.heroTitle em {
-  font-style: italic;
+  font-size: clamp(2rem, 4vw, 3rem);
   color: var(--dorado-palido);
-}
-
-.heroSub {
-  font-family: var(--font-garamond);
-  font-size: 1.5rem;
   font-style: italic;
-  color: var(--crema-oscura);
-  margin-top: 14px;
-  margin-bottom: 40px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 2rem;
 }
 
-.heroDivider {
-  width: 60px;
+.quoteDivider {
+  width: 40px;
   height: 2px;
   background-color: var(--dorado);
-  margin-bottom: 40px;
 }
 
-.heroButton {
-  font-family: var(--font-jost);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--carbon);
-  background-color: var(--dorado);
-  border: none;
-  padding: 14px 28px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.heroButton:hover {
-  background-color: var(--dorado-claro);
-}
-
-/* Intro Section */
-.intro {
-  background-color: var(--crema-calida);
+/* About Section */
+.aboutSection {
   padding: 6rem 2rem;
-  text-align: center;
-  border-top: 3px solid var(--dorado);
+  background-color: var(--crema-base);
 }
 
-.introTitle {
+.aboutContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .aboutContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sectionTitle {
   font-family: var(--font-playfair);
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  color: var(--verde-profundo);
+  margin-bottom: 2rem;
+}
+
+.sectionSubtitle {
+  font-family: var(--font-garamond);
+  font-size: 1.25rem;
+  color: var(--carbon-medio);
+  margin-bottom: 3rem;
+}
+
+.sectionText {
+  font-family: var(--font-garamond);
+  font-size: 1.2rem;
+  color: var(--carbon);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.aboutImageWrapper {
+  width: 100%;
+  height: 400px;
+  background-color: var(--crema-calida);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--crema-oscura);
+}
+
+.aboutImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-jost);
+  color: var(--carbon-medio);
+  background-color: var(--crema-calida);
+}
+
+/* Contact Section */
+.contactSection {
+  padding: 6rem 2rem;
+  background-color: var(--crema-calida);
+  border-top: 1px solid var(--crema-oscura);
+}
+
+.contactContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contactHeader {
+  text-align: center;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.contactCard {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  border-top: 4px solid var(--verde-medio);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.contactCard h3 {
+  font-family: var(--font-playfair);
+  font-size: 1.5rem;
   color: var(--verde-profundo);
   margin-bottom: 1.5rem;
 }
 
-.introText {
+.contactCard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contactCard li {
   font-family: var(--font-garamond);
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: var(--carbon-medio);
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 1.1rem;
+  color: var(--carbon);
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+.contactCard p {
+  font-family: var(--font-garamond);
+  font-size: 1.1rem;
+  color: var(--carbon);
+  line-height: 1.5;
+}
+
+.contactLink {
+  color: var(--verde-medio);
+  text-decoration: none;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+}
+
+.contactLink:hover {
+  color: var(--verde-profundo);
+  border-bottom-color: var(--verde-profundo);
 }

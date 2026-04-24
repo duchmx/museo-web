@@ -518,6 +518,136 @@
     border-left: 2px solid var(--verde-claro);
     line-height: 1.55;
   }
+
+  /* ============================================================
+     RESPONSIVE · MOBILE FIRST ADJUSTMENTS
+     Breakpoint: 680px (covers phones and small tablets in portrait)
+  ============================================================ */
+  @media (max-width: 680px) {
+
+    /* Nav scrolls horizontally — no change needed, already overflow-x:auto */
+    .nav button { padding: 12px 14px; font-size: 10px; }
+
+    /* Cover */
+    .cover { padding: 48px 24px 40px; }
+    .cover h1 { font-size: 30px; }
+    .cover-sub { font-size: 17px; }
+    .cover-intro { padding: 28px 24px; }
+    .cover-intro p { font-size: 17px; }
+
+    /* Section headers */
+    .section-header { padding: 32px 24px 24px; }
+    .section-header h2 { font-size: 24px; }
+
+    /* Content padding */
+    .content { padding: 0 24px; }
+
+    /* Essence grid: 2 cols on mobile is OK, just reduce padding */
+    .essence-grid { grid-template-columns: 1fr; gap: 2px; }
+    .essence-card { padding: 22px 20px; }
+    .essence-card-value { font-size: 18px; }
+
+    /* Mission */
+    .mission-box { padding: 28px 24px; }
+    .mission-text { font-size: 17px; padding-left: 12px; }
+    .mission-box::before { font-size: 60px; left: 16px; }
+
+    /* Pillars: stack on mobile */
+    .pillars { grid-template-columns: 1fr; }
+
+    /* Audience rows: stack label above desc */
+    .audience-row { grid-template-columns: 1fr; }
+    .audience-label { padding: 14px 18px; font-size: 14px; }
+    .audience-desc { padding: 14px 18px; font-size: 13px; }
+
+    /* Color palettes: 3 cols primary, 2 cols accent */
+    .palette-primary { grid-template-columns: repeat(3, 1fr); }
+    .palette-accent { grid-template-columns: repeat(2, 1fr); }
+
+    /* Color combos: stack */
+    .color-combos-grid { grid-template-columns: 1fr !important; }
+
+    /* Typography rows: stack sample above attrs */
+    .type-specimen { padding: 24px 20px; }
+    .type-row {
+      grid-template-columns: 1fr;
+      gap: 10px 0;
+      padding: 18px 0;
+    }
+    .type-row-attrs {
+      border-left: none;
+      border-top: 1px solid var(--crema-oscura);
+      padding-left: 0;
+      padding-top: 8px;
+      white-space: normal;
+    }
+
+    /* Voice grid: stack */
+    .voice-grid { grid-template-columns: 1fr; }
+
+    /* Logo field: stack */
+    .logo-field { grid-template-columns: 1fr; }
+    .logo-box { padding: 36px 24px; min-height: 160px; }
+
+    /* Logo rules */
+    .logo-rule { padding: 16px 18px; }
+
+    /* Imagery: stack */
+    .imagery-grid { grid-template-columns: 1fr; }
+
+    /* App cards: stack */
+    .app-cards { grid-template-columns: 1fr; }
+    .app-card { padding: 24px 22px; }
+
+    /* Digital pieces: stack */
+    .digital-pieces-grid { grid-template-columns: 1fr !important; }
+
+    /* Editorial note */
+    .editorial-note { padding: 24px 20px; }
+    .editorial-note-principles { grid-template-columns: 1fr; }
+
+    /* Checklist */
+    .checklist-text { font-size: 13px; }
+
+    /* Inline grids used in color combos and voice */
+    .color-combo-grid-2,
+    .voice-bilingual-grid { grid-template-columns: 1fr !important; }
+
+    /* Adjustments for inline grid styles used throughout */
+    [style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    [style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    [style*="grid-template-columns: 200px 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    [style*="grid-template-columns: 100px 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Type specimen large text scaled down */
+    .type-row-sample [style*="font-size:48px"] { font-size: 32px !important; }
+    .type-row-sample [style*="font-size:36px"] { font-size: 26px !important; }
+    .type-row-sample [style*="font-size:26px"] { font-size: 20px !important; }
+
+    /* Flyer aspect ratio: let it scroll naturally */
+    [style*="aspect-ratio:9/16"] { aspect-ratio: auto !important; min-height: 420px; }
+    [style*="aspect-ratio:1/1"] { aspect-ratio: auto !important; min-height: 300px; }
+  }
+
+  /* Medium breakpoint: tablets in portrait */
+  @media (min-width: 681px) and (max-width: 900px) {
+    .cover { padding: 56px 36px 48px; }
+    .cover h1 { font-size: 36px; }
+    .content { padding: 0 36px; }
+    .section-header { padding: 36px 36px 28px; }
+    .pillars { grid-template-columns: 1fr 1fr; }
+    .palette-primary { grid-template-columns: repeat(3, 1fr); }
+    .type-row { grid-template-columns: 1fr 180px; }
+    .essence-grid { grid-template-columns: 1fr 1fr; }
+  }
 </style>
 </head>
 <body>

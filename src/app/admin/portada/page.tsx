@@ -1,8 +1,7 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import styles from "../agenda/page.module.css";
+import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -10,6 +9,7 @@ export default function AdminPortada() {
   const router = useRouter();
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [slides, setSlides] = useState<any[]>([]);
 
   // Form State
   const [title, setTitle] = useState("");
@@ -26,29 +26,21 @@ export default function AdminPortada() {
         router.push("/admin");
       } else {
         setSession(session);
-        fetchHero();
+        fetchSlides();
       }
     });
   }, [router]);
 
-  async function fetchHero() {
+  const fetchSlides = async () => {
     setLoading(true);
     const { data } = await supabase
       .from("hero_templates")
       .select("*")
-      .eq("is_active", true)
-      .limit(1)
-      .single();
+      .order("created_at", { ascending: false });
     
-    if (data) {
-      setTitle(data.title);
-      setSubtitle(data.subtitle || "");
-      setDateText(data.date_text || "");
-      setButtonText(data.button_text || "Ver Calendario");
-      setButtonLink(data.button_link || "/agenda");
-    }
+    if (data) setSlides(data);
     setLoading(false);
-  }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -62,58 +54,41 @@ export default function AdminPortada() {
 
     try {
       let imageUrl = null;
-
       if (file) {
         const fileExt = file.name.split('.').pop();
         const fileName = `hero_${Math.random()}.${fileExt}`;
-        const filePath = `${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('museum-assets')
-          .upload(filePath, file);
-
+        const { error: uploadError } = await supabase.storage.from('museum-assets').upload(fileName, file);
         if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabase.storage
-          .from('museum-assets')
-          .getPublicUrl(filePath);
-        
-        imageUrl = publicUrlData.publicUrl;
-      } else {
-        // Fetch current active image to reuse if not changed
-        const { data: current } = await supabase
-          .from("hero_templates")
-          .select("background_image_url")
-          .eq("is_active", true)
-          .limit(1)
-          .single();
-        if (current) imageUrl = current.background_image_url;
+        const { data } = supabase.storage.from('museum-assets').getPublicUrl(fileName);
+        imageUrl = data.publicUrl;
       }
 
-      // First, set all other heroes to inactive
-      await supabase.from("hero_templates").update({ is_active: false }).neq("id", "00000000-0000-0000-0000-000000000000");
-
-      // Insert the new active hero
-      const { error } = await supabase.from("hero_templates").insert([
-        {
-          title,
-          subtitle,
-          date_text: dateText,
-          button_text: buttonText,
-          button_link: buttonLink,
-          background_image_url: imageUrl,
-          is_active: true
-        }
-      ]);
+      const { error } = await supabase.from("hero_templates").insert([{
+        title, subtitle, date_text: dateText, button_text: buttonText, button_link: buttonLink, background_image_url: imageUrl, is_active: true
+      }]);
 
       if (error) throw error;
-
-      alert("Portada actualizada exitosamente!");
-      fetchHero();
+      
+      // Reset form
+      setTitle(""); setSubtitle(""); setDateText(""); setFile(null);
+      alert("Diapositiva añadida exitosamente!");
+      fetchSlides();
     } catch (error: any) {
-      alert("Error al guardar: " + error.message);
+      alert("Error: " + error.message);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const toggleActive = async (id: string, currentStatus: boolean) => {
+    await supabase.from("hero_templates").update({ is_active: !currentStatus }).eq("id", id);
+    fetchSlides();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("¿Estás seguro de eliminar esta diapositiva?")) {
+      await supabase.from("hero_templates").delete().eq("id", id);
+      fetchSlides();
     }
   };
 
@@ -122,45 +97,61 @@ export default function AdminPortada() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <div>
-          <Link href="/admin" className={styles.backLink}>← Volver al Panel</Link>
-          <h1 className={styles.title}>Administrar Portada</h1>
-        </div>
+        <Link href="/admin" className={styles.backLink}>← Volver al Panel</Link>
+        <h1 className={styles.title}>Administrar Carrusel</h1>
       </header>
 
       <div className={styles.layout}>
-        <div className={styles.formSection} style={{ gridColumn: '1 / -1' }}>
+        <div className={styles.formSection}>
           <div className={styles.card}>
-            <h2>Actualizar Portada Principal</h2>
-            <p style={{ marginBottom: '2rem', fontFamily: 'var(--font-garamond)', fontSize: '1.2rem' }}>
-              Utiliza este formulario para cambiar la imagen y el texto que aparece en la pantalla principal del sitio.
-            </p>
+            <h2>Añadir Nueva Diapositiva</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
                 <label>Título Principal *</label>
-                <input required type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Ej. Noche de Trova Yucateca" />
+                <input required type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Ej. Noche de Trova" />
               </div>
-              
               <div className={styles.inputGroup}>
                 <label>Etiqueta Superior</label>
                 <input type="text" value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="Ej. Próximo Evento" />
               </div>
-
               <div className={styles.inputGroup}>
-                <label>Texto de Fecha / Detalles</label>
-                <input type="text" value={dateText} onChange={e => setDateText(e.target.value)} placeholder="Ej. Jueves 24 de Octubre · 20:00 h" />
+                <label>Texto Secundario / Fecha</label>
+                <input type="text" value={dateText} onChange={e => setDateText(e.target.value)} placeholder="Ej. Jueves 24 de Octubre" />
               </div>
-
               <div className={styles.inputGroup}>
                 <label>Imagen de Fondo</label>
                 <input type="file" accept="image/*" onChange={handleFileChange} />
-                <small style={{ marginTop: '5px', color: '#666' }}>Si no seleccionas una imagen nueva, se mantendrá la actual (o fondo verde oscuro).</small>
               </div>
-
               <button type="submit" disabled={saving} className={styles.submitButton}>
-                {saving ? "Guardando..." : "Actualizar Portada"}
+                {saving ? "Guardando..." : "Añadir Diapositiva"}
               </button>
             </form>
+          </div>
+        </div>
+
+        <div className={styles.listSection}>
+          <h2>Diapositivas Actuales</h2>
+          <div className={styles.slidesList}>
+            {slides.map(slide => (
+              <div key={slide.id} className={`${styles.slideItem} ${slide.is_active ? styles.activeItem : styles.inactiveItem}`}>
+                <div className={styles.slideInfo}>
+                  <h3>{slide.title}</h3>
+                  <p>{slide.subtitle || 'Sin etiqueta'} · {slide.date_text || 'Sin fecha'}</p>
+                </div>
+                <div className={styles.slideActions}>
+                  <button 
+                    onClick={() => toggleActive(slide.id, slide.is_active)}
+                    className={slide.is_active ? styles.deactivateBtn : styles.activateBtn}
+                  >
+                    {slide.is_active ? "Desactivar" : "Activar"}
+                  </button>
+                  <button onClick={() => handleDelete(slide.id)} className={styles.deleteBtn}>Eliminar</button>
+                </div>
+              </div>
+            ))}
+            {slides.length === 0 && (
+              <p style={{fontFamily: 'var(--font-garamond)', color: 'var(--carbon-medio)'}}>No hay diapositivas.</p>
+            )}
           </div>
         </div>
       </div>
