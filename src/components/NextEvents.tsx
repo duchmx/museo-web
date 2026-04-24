@@ -8,6 +8,7 @@ interface Event {
   subtitle: string;
   event_date: string;
   image_url: string;
+  price?: string;
 }
 
 export default function NextEvents({ events }: { events: Event[] }) {
@@ -38,7 +39,7 @@ export default function NextEvents({ events }: { events: Event[] }) {
                   )}
                 </div>
                 <div className={styles.content}>
-                  <p className={styles.date}>{dateString} · {timeString}</p>
+                  <p className={styles.date}>{dateString} · {timeString}{ev.price ? ` · ${ev.price}` : ''}</p>
                   <h3 className={styles.eventTitle}>{ev.title}</h3>
                   {ev.subtitle && <p className={styles.eventSubtitle}>{ev.subtitle}</p>}
                 </div>

@@ -18,6 +18,7 @@ export default function AdminAgenda() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -83,6 +84,7 @@ export default function AdminAgenda() {
           description,
           event_date: eventDateTime,
           image_url: imageUrl,
+          price: price || null,
         }
       ]);
 
@@ -94,6 +96,7 @@ export default function AdminAgenda() {
       setDate("");
       setTime("");
       setDescription("");
+      setPrice("");
       setFile(null);
       alert("Evento guardado exitosamente!");
       fetchEvents();
@@ -151,6 +154,11 @@ export default function AdminAgenda() {
               <div className={styles.inputGroup}>
                 <label>Descripción *</label>
                 <textarea required rows={4} value={description} onChange={e => setDescription(e.target.value)} placeholder="Detalles del evento..."></textarea>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label>Precio / Tarifa (Opcional)</label>
+                <input type="text" value={price} onChange={e => setPrice(e.target.value)} placeholder="Ej. $50 MXN o Entrada Libre" />
               </div>
 
               <div className={styles.inputGroup}>
