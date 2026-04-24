@@ -32,7 +32,7 @@ export default function AdminAgenda() {
     });
   }, [router]);
 
-  const fetchEvents = async () => {
+  async function fetchEvents() {
     setLoading(true);
     const { data, error } = await supabase
       .from("events")
@@ -41,7 +41,7 @@ export default function AdminAgenda() {
     
     if (data) setEvents(data);
     setLoading(false);
-  };
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

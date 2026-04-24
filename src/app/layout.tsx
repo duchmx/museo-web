@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, EB_Garamond, Jost } from "next/font/google";
 import "./globals.css";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -48,7 +50,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${playfair.variable} ${garamond.variable} ${jost.variable}`}>
-      <body style={{ fontFamily: "var(--font-garamond), Georgia, serif" }}>{children}</body>
+      <body style={{ fontFamily: "var(--font-garamond), Georgia, serif" }}>
+        <Navigation />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

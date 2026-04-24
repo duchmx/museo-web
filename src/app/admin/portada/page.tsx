@@ -31,7 +31,7 @@ export default function AdminPortada() {
     });
   }, [router]);
 
-  const fetchHero = async () => {
+  async function fetchHero() {
     setLoading(true);
     const { data } = await supabase
       .from("hero_templates")
@@ -48,7 +48,7 @@ export default function AdminPortada() {
       setButtonLink(data.button_link || "/agenda");
     }
     setLoading(false);
-  };
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
