@@ -2,17 +2,12 @@
   --verde-profundo: #1A4A2E;
   --verde-institucional: #2D6A4F;
   --verde-medio: #40916C;
-  --verde-claro: #74C69D;
-  --verde-musgo: #1B4332;
   --crema-base: #F5F0E8;
   --crema-calida: #EDE8DC;
-  --crema-oscura: #D9D0BE;
   --dorado: #B8860B;
   --dorado-claro: #D4A017;
   --dorado-palido: #F0D080;
   --carbon: #1C1C1A;
-  --carbon-medio: #2E2E2C;
-  --marfil-texto: #F7F3EC;
 }
 
 * {
@@ -21,7 +16,8 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--crema-base);
