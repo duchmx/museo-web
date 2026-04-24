@@ -30,7 +30,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <HeroCarousel heroes={heroes || []} />
-      
+
       <NextEvents events={events || []} />
 
       <section className={styles.quoteBuffer}>
@@ -53,7 +53,7 @@ export default async function Home() {
           </div>
           <div className={styles.aboutImageWrapper}>
             <div className={styles.aboutImagePlaceholder}>
-              <span>Fachada del Museo</span>
+              <span>Interiores del Museo</span>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default async function Home() {
             <h2 className={styles.sectionTitle}>Visítanos</h2>
             <p className={styles.sectionSubtitle}>Planifica tu visita y descubre la magia de nuestra música.</p>
           </div>
-          
+
           <div className={styles.contactGrid}>
             <div className={styles.contactCard}>
               <h3>Horarios</h3>
@@ -76,7 +76,7 @@ export default async function Home() {
                 <li><strong>Lunes:</strong> Cerrado</li>
               </ul>
             </div>
-            
+
             <div className={styles.contactCard}>
               <h3>Tarifas</h3>
               <ul>
@@ -85,16 +85,16 @@ export default async function Home() {
                 <li><strong>Domingos:</strong> Entrada libre (Nacionales)</li>
               </ul>
             </div>
-            
+
             <div className={styles.contactCard}>
               <h3>Ubicación y Contacto</h3>
               <p>
                 <a href="https://maps.google.com/?q=Museo+de+la+Canción+Yucateca" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
-                  Calle 57 x 48, Centro Histórico.<br/>Mérida, Yucatán, México.
+                  Calle 57 x 48, Centro Histórico.<br />Mérida, Yucatán, México.
                 </a>
               </p>
               <p style={{ marginTop: '1rem' }}>
-                <strong>Teléfono:</strong> (999) 923-7224<br/>
+                <strong>Teléfono:</strong> (999) 923-7224<br />
                 <strong>Email:</strong> info@museodelacancion.mx
               </p>
             </div>

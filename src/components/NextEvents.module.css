@@ -37,8 +37,26 @@
 }
 
 @media (max-width: 600px) {
+  .section {
+    padding: 3rem 1.5rem;
+  }
   .grid {
     grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+  .eventTitle, .eventSubtitle {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .eventTitle {
+    -webkit-line-clamp: 2;
+  }
+  .eventSubtitle {
+    -webkit-line-clamp: 2;
   }
 }
 
@@ -91,6 +109,7 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  min-width: 0;
 }
 
 .date {
