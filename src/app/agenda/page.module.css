@@ -148,8 +148,27 @@
   margin-bottom: 24px;
 }
 
+.eventFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.eventPrice {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  background-color: rgba(26, 74, 46, 0.1);
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
 .eventButton {
-  align-self: flex-start;
   background: transparent;
   border: 1px solid var(--verde-medio);
   color: var(--verde-profundo);

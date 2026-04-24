@@ -59,10 +59,13 @@ export default async function AgendaPage() {
                   )}
                   
                   <div className={styles.eventContent}>
-                    <p className={styles.eventTime}>{time}{event.price ? ` · ${event.price}` : ''} · {event.subtitle || 'Evento'}</p>
+                    <p className={styles.eventTime}>{time} · {event.subtitle || 'Evento'}</p>
                     <h3 className={styles.eventTitle}>{event.title}</h3>
                     <p className={styles.eventDesc}>{event.description}</p>
-                    <button className={styles.eventButton}>Más Detalles</button>
+                    <div className={styles.eventFooter}>
+                      <button className={styles.eventButton}>Más Detalles</button>
+                      {event.price && <span className={styles.eventPrice}>{event.price}</span>}
+                    </div>
                   </div>
                 </article>
               );

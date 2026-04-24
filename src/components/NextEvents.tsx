@@ -42,9 +42,10 @@ export default function NextEvents({ events }: { events: Event[] }) {
                   )}
                 </div>
                 <div className={styles.content}>
-                  <p className={styles.date}>{dateString} · {timeString}{ev.price ? ` · ${ev.price}` : ''}</p>
+                  <p className={styles.date}>{dateString} · {timeString}</p>
                   <h3 className={styles.eventTitle}>{ev.title}</h3>
                   {ev.subtitle && <p className={styles.eventSubtitle}>{ev.subtitle}</p>}
+                  {ev.price && <div className={styles.priceTag}>{ev.price}</div>}
                 </div>
               </Link>
             );

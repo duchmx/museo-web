@@ -69,6 +69,9 @@
   text-decoration: none;
   transition: border-color 0.2s;
   border: 1px solid var(--crema-oscura);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card:hover {
@@ -140,6 +143,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.priceTag {
+  font-family: var(--font-jost);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--verde-profundo);
+  background-color: rgba(26, 74, 46, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  align-self: flex-start;
+  display: inline-block;
 }
 
 .footer {

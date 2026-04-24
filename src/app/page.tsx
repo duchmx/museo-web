@@ -1,4 +1,5 @@
 import styles from "./page.module.css";
+import Image from "next/image";
 import { createClient } from '@supabase/supabase-js';
 import HeroCarousel from "@/components/HeroCarousel";
 import NextEvents from "@/components/NextEvents";
@@ -52,9 +53,7 @@ export default async function Home() {
             </p>
           </div>
           <div className={styles.aboutImageWrapper}>
-            <div className={styles.aboutImagePlaceholder}>
-              <span>Interiores del Museo</span>
-            </div>
+            <Image src="/corredor.jpg" alt="Interiores del Museo" fill style={{ objectFit: 'cover' }} />
           </div>
         </div>
       </section>
