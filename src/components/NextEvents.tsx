@@ -32,6 +32,7 @@ export default function NextEvents({ events }: { events: Event[] }) {
             
             return (
               <Link href="/agenda" key={ev.id} className={styles.card}>
+                {ev.price && <div className={styles.priceTag}>{ev.price}</div>}
                 <div className={styles.imageWrapper}>
                   {ev.image_url ? (
                     <Image src={ev.image_url} alt={ev.title} fill className={styles.image} />
@@ -44,7 +45,6 @@ export default function NextEvents({ events }: { events: Event[] }) {
                 <div className={styles.content}>
                   <div className={styles.headerRow}>
                     <p className={styles.date}>{dateString} · {timeString}</p>
-                    {ev.price && <div className={styles.priceTag}>{ev.price}</div>}
                   </div>
                   <h3 className={styles.eventTitle}>{ev.title}</h3>
                   {ev.subtitle && <p className={styles.eventSubtitle}>{ev.subtitle}</p>}

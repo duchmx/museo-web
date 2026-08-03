@@ -51,19 +51,19 @@ export default async function AgendaPage() {
                     <span className={styles.dateDay}>{day}</span>
                     <span className={styles.dateMonth}>{month}</span>
                   </div>
-                  
+
                   {event.image_url && (
                     <div className={styles.eventImageWrapper}>
                       <Image src={event.image_url} alt={event.title} fill className={styles.eventImage} />
                     </div>
                   )}
-                  
+
                   <div className={styles.eventContent}>
                     <p className={styles.eventTime}>{time} · {event.subtitle || 'Evento'}</p>
                     <h3 className={styles.eventTitle}>{event.title}</h3>
                     <p className={styles.eventDesc}>{event.description}</p>
                     <div className={styles.eventFooter}>
-                      <button className={styles.eventButton}>Más Detalles</button>
+                      <button className={styles.eventButton}>Compartir</button>
                       {event.price && <span className={styles.eventPrice}>{event.price}</span>}
                     </div>
                   </div>
