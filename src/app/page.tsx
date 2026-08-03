@@ -93,8 +93,15 @@ export default async function Home() {
                 </a>
               </p>
               <p style={{ marginTop: '1rem' }}>
-                <strong>Teléfono:</strong> (999) 923-7224<br />
-                <strong>Email:</strong> info@museodelacancion.mx
+                <strong>Teléfono:</strong>{' '}
+                <a href="tel:+529999237224" className={styles.contactLink}>
+                  +52 (999) 923-7224
+                </a>
+                <br />
+                <strong>Email:</strong>{' '}
+                <a href="mailto:info@mucy.mx" className={styles.contactLink}>
+                  info@mucy.mx
+                </a>
               </p>
             </div>
           </div>
