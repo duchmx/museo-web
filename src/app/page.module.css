@@ -157,13 +157,10 @@
 }
 
 .contactLink {
-  color: var(--verde-medio);
+  color: inherit;
   text-decoration: none;
-  transition: color 0.2s;
-  border-bottom: 1px solid transparent;
 }
 
 .contactLink:hover {
-  color: var(--verde-profundo);
-  border-bottom-color: var(--verde-profundo);
+  color: inherit;
 }
