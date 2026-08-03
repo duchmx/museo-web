@@ -3,6 +3,7 @@ import Image from "next/image";
 import { createClient } from '@supabase/supabase-js';
 import HeroCarousel from "@/components/HeroCarousel";
 import NextEvents from "@/components/NextEvents";
+import { getEventosFuturos } from "@/lib/events";
 
 export const revalidate = 0;
 
@@ -19,20 +20,14 @@ export default async function Home() {
     .eq('is_active', true)
     .order('created_at', { ascending: true });
 
-  // Fetch upcoming events
-  const today = new Date().toISOString();
-  const { data: events } = await supabase
-    .from('events')
-    .select('*')
-    .gte('event_date', today)
-    .order('event_date', { ascending: true })
-    .limit(6);
+  // El filtro por fecha y la zona horaria viven en getEventosFuturos().
+  const events = await getEventosFuturos(6);
 
   return (
     <main className={styles.main}>
       <HeroCarousel heroes={heroes || []} />
 
-      <NextEvents events={events || []} />
+      <NextEvents events={events} />
 
       <section className={styles.quoteBuffer}>
         <div className={styles.quoteContainer}>

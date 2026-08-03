@@ -1,120 +1,188 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase/client";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {
+  type Evento,
+  CAMPOS_EVENTO,
+  diaDelMes,
+  formatearFecha,
+  formatearHora,
+  formatearPrecio,
+  mesAbreviado,
+  nombreArtista,
+} from "@/lib/events";
+
+const CICLOS_FRECUENTES = ["Miércoles de Trova"];
+
+/**
+ * "Por confirmar" deja el campo vacío en vez de escribir un literal: el texto
+ * visible sale siempre de formatearPrecio(), así que hay una sola fuente de
+ * verdad y no acaba un mes diciendo "Gratis", otro "Entrada libre" y otro "GRATIS".
+ */
+const ATAJOS_PRECIO = [
+  { etiqueta: "Entrada libre", valor: "Entrada libre" },
+  { etiqueta: "Por confirmar", valor: "" },
+  { etiqueta: "$50", valor: "$50" },
+  { etiqueta: "$100", valor: "$100" },
+];
+
+type RanuraImagen = "imagen_thumb" | "imagen_hero" | "imagen_poster";
+
+const RANURAS_IMAGEN: { campo: RanuraImagen; etiqueta: string; ayuda: string }[] = [
+  { campo: "imagen_thumb", etiqueta: "Miniatura", ayuda: "Cuadrada · se ve en las tarjetas de la agenda" },
+  { campo: "imagen_hero", etiqueta: "Fondo de portada", ayuda: "Apaisada · se ve detrás del texto en el inicio" },
+  { campo: "imagen_poster", etiqueta: "Póster", ayuda: "Vertical · para redes sociales y al compartir" },
+];
+
+const FORM_VACIO = {
+  ciclo: "",
+  artista: "",
+  event_date: "",
+  event_time: "20:00",
+  precio: "",
+  destacado: "",
+  invitados: "",
+  descripcion: "",
+  mostrar_en_hero: false,
+};
 
 export default function AdminAgenda() {
   const router = useRouter();
-  const [events, setEvents] = useState<any[]>([]);
+  const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [guardando, setGuardando] = useState(false);
 
-  // Form State
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState(FORM_VACIO);
+  const [editandoId, setEditandoId] = useState<string | null>(null);
+  const [imagenesActuales, setImagenesActuales] = useState<
+    Partial<Record<RanuraImagen, string | null>>
+  >({});
+  const [archivos, setArchivos] = useState<Partial<Record<RanuraImagen, File>>>({});
+
+  const cargarEventos = useCallback(async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from("events")
+      .select(CAMPOS_EVENTO)
+      .order("event_date", { ascending: true })
+      .order("event_time", { ascending: true });
+
+    setEventos((data as Evento[]) ?? []);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
         router.push("/admin");
       } else {
-        setSession(session);
-        fetchEvents();
+        cargarEventos();
       }
     });
-  }, [router]);
+  }, [router, cargarEventos]);
 
-  async function fetchEvents() {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
-      .order("event_date", { ascending: true });
-    
-    if (data) setEvents(data);
-    setLoading(false);
-  }
+  const actualizar = <K extends keyof typeof FORM_VACIO>(
+    campo: K,
+    valor: (typeof FORM_VACIO)[K]
+  ) => setForm((previo) => ({ ...previo, [campo]: valor }));
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
+  const limpiarFormulario = () => {
+    setForm(FORM_VACIO);
+    setEditandoId(null);
+    setImagenesActuales({});
+    setArchivos({});
+  };
+
+  const editar = (evento: Evento) => {
+    setForm({
+      ciclo: evento.ciclo,
+      artista: evento.artista ?? "",
+      event_date: evento.event_date,
+      event_time: evento.event_time.slice(0, 5),
+      precio: evento.precio ?? "",
+      destacado: evento.destacado ?? "",
+      invitados: evento.invitados ?? "",
+      descripcion: evento.descripcion ?? "",
+      mostrar_en_hero: evento.mostrar_en_hero,
+    });
+    setEditandoId(evento.id);
+    setImagenesActuales({
+      imagen_thumb: evento.imagen_thumb,
+      imagen_hero: evento.imagen_hero,
+      imagen_poster: evento.imagen_poster,
+    });
+    setArchivos({});
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const subirImagen = async (campo: RanuraImagen, archivo: File) => {
+    const extension = archivo.name.split(".").pop();
+    const ruta = `evento/${crypto.randomUUID()}-${campo}.${extension}`;
+
+    const { error } = await supabase.storage
+      .from("museum-assets")
+      .upload(ruta, archivo);
+    if (error) throw error;
+
+    return supabase.storage.from("museum-assets").getPublicUrl(ruta).data.publicUrl;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
+    setGuardando(true);
 
     try {
-      let imageUrl = null;
-
-      if (file) {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('museum-assets')
-          .upload(filePath, file);
-
-        if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabase.storage
-          .from('museum-assets')
-          .getPublicUrl(filePath);
-        
-        imageUrl = publicUrlData.publicUrl;
+      // Al editar, las ranuras sin archivo nuevo conservan la imagen que ya tenían.
+      const imagenes: Partial<Record<RanuraImagen, string | null>> = {
+        ...imagenesActuales,
+      };
+      for (const { campo } of RANURAS_IMAGEN) {
+        const archivo = archivos[campo];
+        if (archivo) imagenes[campo] = await subirImagen(campo, archivo);
       }
 
-      const eventDateTime = new Date(`${date}T${time}`).toISOString();
+      const registro = {
+        ciclo: form.ciclo.trim(),
+        artista: form.artista.trim() || null,
+        event_date: form.event_date,
+        event_time: form.event_time,
+        precio: form.precio.trim() || null,
+        destacado: form.destacado.trim() || null,
+        invitados: form.invitados.trim() || null,
+        descripcion: form.descripcion.trim() || null,
+        mostrar_en_hero: form.mostrar_en_hero,
+        imagen_thumb: imagenes.imagen_thumb ?? null,
+        imagen_hero: imagenes.imagen_hero ?? null,
+        imagen_poster: imagenes.imagen_poster ?? null,
+      };
 
-      const { error } = await supabase.from("events").insert([
-        {
-          title,
-          subtitle,
-          description,
-          event_date: eventDateTime,
-          image_url: imageUrl,
-          price: price || null,
-        }
-      ]);
+      const { error } = editandoId
+        ? await supabase.from("events").update(registro).eq("id", editandoId)
+        : await supabase.from("events").insert([registro]);
 
       if (error) throw error;
 
-      // Reset form
-      setTitle("");
-      setSubtitle("");
-      setDate("");
-      setTime("");
-      setDescription("");
-      setPrice("");
-      setFile(null);
-      alert("Evento guardado exitosamente!");
-      fetchEvents();
-    } catch (error: any) {
-      alert("Error al guardar: " + error.message);
+      limpiarFormulario();
+      cargarEventos();
+    } catch (error) {
+      alert("Error al guardar: " + (error as Error).message);
     } finally {
-      setSaving(false);
+      setGuardando(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.")) {
-      await supabase.from("events").delete().eq("id", id);
-      fetchEvents();
-    }
+    if (!confirm("¿Eliminar este evento? Esta acción no se puede deshacer.")) return;
+    await supabase.from("events").delete().eq("id", id);
+    if (editandoId === id) limpiarFormulario();
+    cargarEventos();
   };
 
-  if (loading && !session) return <div className={styles.container}>Cargando...</div>;
+  if (loading) return <div className={styles.container}>Cargando...</div>;
 
   return (
     <div className={styles.container}>
@@ -128,76 +196,220 @@ export default function AdminAgenda() {
       <div className={styles.layout}>
         <div className={styles.formSection}>
           <div className={styles.card}>
-            <h2>Añadir Nuevo Evento</h2>
+            <h2>{editandoId ? "Editar evento" : "Añadir nuevo evento"}</h2>
+
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
-                <label>Título del Evento *</label>
-                <input required type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Ej. Noche de Trova" />
+                <label htmlFor="ciclo">Ciclo</label>
+                <input
+                  id="ciclo"
+                  required
+                  type="text"
+                  value={form.ciclo}
+                  onChange={(e) => actualizar("ciclo", e.target.value)}
+                  placeholder="Ej. Miércoles de Trova"
+                />
+                <div className={styles.atajos}>
+                  {CICLOS_FRECUENTES.map((ciclo) => (
+                    <button
+                      key={ciclo}
+                      type="button"
+                      className={styles.atajo}
+                      onClick={() => actualizar("ciclo", ciclo)}
+                    >
+                      {ciclo}
+                    </button>
+                  ))}
+                </div>
               </div>
-              
+
               <div className={styles.inputGroup}>
-                <label>Subtítulo (Opcional)</label>
-                <input type="text" value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="Ej. Concierto de Aniversario" />
+                <label htmlFor="artista">Artista</label>
+                <input
+                  id="artista"
+                  type="text"
+                  value={form.artista}
+                  onChange={(e) => actualizar("artista", e.target.value)}
+                  placeholder="Artista por confirmar"
+                />
+                <p className={styles.hint}>
+                  Si lo dejas vacío, el sitio muestra “Artista por confirmar”.
+                </p>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.inputGroup}>
-                  <label>Fecha *</label>
-                  <input required type="date" value={date} onChange={e => setDate(e.target.value)} />
+                  <label htmlFor="fecha">Fecha</label>
+                  <input
+                    id="fecha"
+                    required
+                    type="date"
+                    value={form.event_date}
+                    onChange={(e) => actualizar("event_date", e.target.value)}
+                  />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Hora *</label>
-                  <input required type="time" value={time} onChange={e => setTime(e.target.value)} />
+                  <label htmlFor="hora">Hora</label>
+                  <input
+                    id="hora"
+                    required
+                    type="time"
+                    value={form.event_time}
+                    onChange={(e) => actualizar("event_time", e.target.value)}
+                  />
+                </div>
+              </div>
+              <p className={styles.hint}>
+                Siempre hora de Mérida, sin importar desde dónde captures.
+              </p>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor="precio">Precio</label>
+                <input
+                  id="precio"
+                  type="text"
+                  value={form.precio}
+                  onChange={(e) => actualizar("precio", e.target.value)}
+                  placeholder="Costo por confirmar"
+                />
+                <div className={styles.atajos}>
+                  {ATAJOS_PRECIO.map((atajo) => (
+                    <button
+                      key={atajo.etiqueta}
+                      type="button"
+                      className={styles.atajo}
+                      onClick={() => actualizar("precio", atajo.valor)}
+                    >
+                      {atajo.etiqueta}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div className={styles.inputGroup}>
-                <label>Descripción *</label>
-                <textarea required rows={4} value={description} onChange={e => setDescription(e.target.value)} placeholder="Detalles del evento..."></textarea>
+              <div className={styles.opcionales}>
+                <p className={styles.opcionalesTitulo}>Opcionales</p>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="destacado">Destacado</label>
+                  <input
+                    id="destacado"
+                    type="text"
+                    maxLength={50}
+                    value={form.destacado}
+                    onChange={(e) => actualizar("destacado", e.target.value)}
+                    placeholder="Ej. Directamente desde Colombia"
+                  />
+                  <p className={styles.hint}>{form.destacado.length}/50 caracteres</p>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="invitados">Trío invitado</label>
+                  <input
+                    id="invitados"
+                    type="text"
+                    value={form.invitados}
+                    onChange={(e) => actualizar("invitados", e.target.value)}
+                    placeholder="Ej. Trío Nova"
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="descripcion">Descripción</label>
+                  <textarea
+                    id="descripcion"
+                    rows={4}
+                    value={form.descripcion}
+                    onChange={(e) => actualizar("descripcion", e.target.value)}
+                    placeholder="Detalles del evento..."
+                  />
+                </div>
+
+                {RANURAS_IMAGEN.map(({ campo, etiqueta, ayuda }) => (
+                  <div className={styles.inputGroup} key={campo}>
+                    <label htmlFor={campo}>{etiqueta}</label>
+                    <input
+                      id={campo}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        setArchivos((previo) => ({
+                          ...previo,
+                          [campo]: e.target.files?.[0],
+                        }))
+                      }
+                    />
+                    <p className={styles.hint}>
+                      {ayuda}
+                      {imagenesActuales[campo] && !archivos[campo] && " · ya tiene imagen"}
+                    </p>
+                  </div>
+                ))}
+
+                <label className={styles.checkboxRow}>
+                  <input
+                    type="checkbox"
+                    checked={form.mostrar_en_hero}
+                    onChange={(e) => actualizar("mostrar_en_hero", e.target.checked)}
+                  />
+                  <span>Mostrar en la portada</span>
+                </label>
               </div>
 
-              <div className={styles.inputGroup}>
-                <label>Precio / Tarifa (Opcional)</label>
-                <input type="text" value={price} onChange={e => setPrice(e.target.value)} placeholder="Ej. $50 MXN o Entrada Libre" />
+              <div className={styles.acciones}>
+                <button type="submit" disabled={guardando} className={styles.submitButton}>
+                  {guardando
+                    ? "Guardando..."
+                    : editandoId
+                      ? "Guardar cambios"
+                      : "Guardar evento"}
+                </button>
+                {editandoId && (
+                  <button
+                    type="button"
+                    className={styles.cancelButton}
+                    onClick={limpiarFormulario}
+                  >
+                    Cancelar
+                  </button>
+                )}
               </div>
-
-              <div className={styles.inputGroup}>
-                <label>Imagen (Opcional)</label>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
-              </div>
-
-              <button type="submit" disabled={saving} className={styles.submitButton}>
-                {saving ? "Guardando..." : "Guardar Evento"}
-              </button>
             </form>
           </div>
         </div>
 
         <div className={styles.listSection}>
-          <h2>Eventos Programados</h2>
-          {loading ? (
-            <p>Cargando eventos...</p>
-          ) : events.length === 0 ? (
+          <h2>Eventos programados</h2>
+          {eventos.length === 0 ? (
             <p className={styles.emptyMsg}>No hay eventos programados.</p>
           ) : (
             <div className={styles.eventsList}>
-              {events.map(ev => {
-                const evDate = new Date(ev.event_date);
-                const tzOptions = { timeZone: 'America/Merida' };
-                const dateStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, year: 'numeric', month: '2-digit', day: '2-digit' }).format(evDate);
-                const timeStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(evDate);
-                return (
-                  <div key={ev.id} className={styles.eventItem}>
-                    <div className={styles.eventInfo}>
-                      <h3>{ev.title}</h3>
-                      <p className={styles.eventDate}>
-                        {dateStr} a las {timeStr}
-                      </p>
-                    </div>
-                    <button onClick={() => handleDelete(ev.id)} className={styles.deleteButton}>Eliminar</button>
+              {eventos.map((evento) => (
+                <div key={evento.id} className={styles.eventItem}>
+                  <div className={styles.eventBadge}>
+                    <span className={styles.eventDay}>{diaDelMes(evento)}</span>
+                    <span className={styles.eventMonth}>{mesAbreviado(evento)}</span>
                   </div>
-                );
-              })}
+                  <div className={styles.eventInfo}>
+                    <p className={styles.eventCiclo}>{evento.ciclo}</p>
+                    <h3>{nombreArtista(evento)}</h3>
+                    <p className={styles.eventDate}>
+                      {formatearFecha(evento)} · {formatearHora(evento)} h ·{" "}
+                      {formatearPrecio(evento)}
+                    </p>
+                  </div>
+                  <div className={styles.eventActions}>
+                    <button onClick={() => editar(evento)} className={styles.editButton}>
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(evento.id)}
+                      className={styles.deleteButton}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>

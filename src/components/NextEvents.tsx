@@ -1,17 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './NextEvents.module.css';
+import {
+  type Evento,
+  diaDelMes,
+  formatearFecha,
+  formatearHora,
+  formatearPrecio,
+  nombreArtista,
+} from '@/lib/events';
 
-interface Event {
-  id: string;
-  title: string;
-  subtitle: string;
-  event_date: string;
-  image_url: string;
-  price?: string;
-}
-
-export default function NextEvents({ events }: { events: Event[] }) {
+/**
+ * Card compacta. Solo miniatura, ciclo, artista, fecha, hora y precio: nada más.
+ * `destacado`, `invitados` y `descripcion` viven en /agenda — si entraran aquí,
+ * unas cards quedarían más altas que otras y la cuadrícula se vería rota.
+ */
+export default function NextEvents({ events }: { events: Evento[] }) {
   if (!events || events.length === 0) return null;
 
   return (
@@ -20,40 +24,38 @@ export default function NextEvents({ events }: { events: Event[] }) {
         <div className={styles.header}>
           <h2 className={styles.title}>Próximos Eventos</h2>
         </div>
-        
+
         <div className={styles.grid}>
-          {events.map(ev => {
-            const date = new Date(ev.event_date);
-            const tzOptions = { timeZone: 'America/Merida' };
-            const dateStringRaw = new Intl.DateTimeFormat('es-MX', { ...tzOptions, weekday: 'short', day: 'numeric', month: 'short' }).format(date);
-            const dateString = dateStringRaw.replace(/\./g, '');
-            const timeString = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(date) + ' h';
-            const day = new Intl.DateTimeFormat('es-MX', { ...tzOptions, day: 'numeric' }).format(date);
-            
-            return (
-              <Link href="/agenda" key={ev.id} className={styles.card}>
-                {ev.price && <div className={styles.priceTag}>{ev.price}</div>}
-                <div className={styles.imageWrapper}>
-                  {ev.image_url ? (
-                    <Image src={ev.image_url} alt={ev.title} fill className={styles.image} />
-                  ) : (
-                    <div className={styles.imagePlaceholder}>
-                      <span className={styles.dateDay}>{day}</span>
-                    </div>
-                  )}
-                </div>
-                <div className={styles.content}>
-                  <div className={styles.headerRow}>
-                    <p className={styles.date}>{dateString} · {timeString}</p>
+          {events.map((ev) => (
+            <Link href="/agenda" key={ev.id} className={styles.card}>
+              <div className={styles.imageWrapper}>
+                {ev.imagen_thumb ? (
+                  <Image
+                    src={ev.imagen_thumb}
+                    alt={nombreArtista(ev)}
+                    fill
+                    className={styles.image}
+                  />
+                ) : (
+                  <div className={styles.imagePlaceholder}>
+                    <span className={styles.dateDay}>{diaDelMes(ev)}</span>
                   </div>
-                  <h3 className={styles.eventTitle}>{ev.title}</h3>
-                  {ev.subtitle && <p className={styles.eventSubtitle}>{ev.subtitle}</p>}
+                )}
+              </div>
+              <div className={styles.content}>
+                <div className={styles.headerRow}>
+                  <p className={styles.date}>
+                    {formatearFecha(ev, 'corto')} · {formatearHora(ev)} h
+                  </p>
+                  <span className={styles.priceTag}>{formatearPrecio(ev)}</span>
                 </div>
-              </Link>
-            );
-          })}
+                <h3 className={styles.eventTitle}>{nombreArtista(ev)}</h3>
+                <p className={styles.ciclo}>{ev.ciclo}</p>
+              </div>
+            </Link>
+          ))}
         </div>
-        
+
         <div className={styles.footer}>
           <Link href="/agenda" className={styles.viewAllButton}>
             Ver Agenda Completa

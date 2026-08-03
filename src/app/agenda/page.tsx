@@ -1,25 +1,24 @@
 import styles from './page.module.css';
 import Image from 'next/image';
-import { createClient } from '@supabase/supabase-js';
+import {
+  diaDelMes,
+  formatearFecha,
+  formatearHora,
+  formatearPrecio,
+  getEventosFuturos,
+  mesAbreviado,
+  nombreArtista,
+  textoInvitados,
+} from '@/lib/events';
 
 export const metadata = {
   title: 'Agenda de Eventos | Museo de la Canción Yucateca',
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export const revalidate = 0; // Disable cache to ensure fresh data for now
 
 export default async function AgendaPage() {
-  const { data: events } = await supabase
-    .from('events')
-    .select('*')
-    .order('event_date', { ascending: true });
-
-  const displayEvents = events || [];
+  const eventos = await getEventosFuturos();
 
   return (
     <main className={styles.main}>
@@ -34,37 +33,53 @@ export default async function AgendaPage() {
 
       <section className={styles.agendaSection}>
         <div className={styles.eventsGrid}>
-          {displayEvents.length === 0 ? (
-            <p style={{ textAlign: 'center', fontFamily: 'var(--font-garamond)', fontSize: '1.2rem' }}>No hay eventos programados por el momento.</p>
+          {eventos.length === 0 ? (
+            <p className={styles.emptyMsg}>No hay eventos programados por el momento.</p>
           ) : (
-            displayEvents.map(event => {
-              const eventDate = new Date(event.event_date);
-              const tzOptions = { timeZone: 'America/Merida' };
-              const day = new Intl.DateTimeFormat('es-MX', { ...tzOptions, day: 'numeric' }).format(eventDate);
-              const monthStr = new Intl.DateTimeFormat('es-MX', { ...tzOptions, month: 'short' }).format(eventDate);
-              const month = monthStr.charAt(0).toUpperCase() + monthStr.slice(1).replace('.', '');
-              const time = new Intl.DateTimeFormat('es-MX', { ...tzOptions, hour: '2-digit', minute: '2-digit', hour12: false }).format(eventDate) + ' h';
+            eventos.map((evento) => {
+              const invitados = textoInvitados(evento);
 
               return (
-                <article key={event.id} className={`${styles.eventCard} ${event.image_url ? styles.hasImage : ''}`}>
+                <article
+                  key={evento.id}
+                  className={`${styles.eventCard} ${evento.imagen_thumb ? styles.hasImage : ''}`}
+                >
                   <div className={styles.dateBadge}>
-                    <span className={styles.dateDay}>{day}</span>
-                    <span className={styles.dateMonth}>{month}</span>
+                    <span className={styles.dateDay}>{diaDelMes(evento)}</span>
+                    <span className={styles.dateMonth}>{mesAbreviado(evento)}</span>
                   </div>
 
-                  {event.image_url && (
+                  {evento.imagen_thumb && (
                     <div className={styles.eventImageWrapper}>
-                      <Image src={event.image_url} alt={event.title} fill className={styles.eventImage} />
+                      <Image
+                        src={evento.imagen_thumb}
+                        alt={nombreArtista(evento)}
+                        fill
+                        className={styles.eventImage}
+                      />
                     </div>
                   )}
 
                   <div className={styles.eventContent}>
-                    <p className={styles.eventTime}>{time} · {event.subtitle || 'Evento'}</p>
-                    <h3 className={styles.eventTitle}>{event.title}</h3>
-                    <p className={styles.eventDesc}>{event.description}</p>
+                    <p className={styles.eventCiclo}>{evento.ciclo}</p>
+                    <h3 className={styles.eventTitle}>{nombreArtista(evento)}</h3>
+
+                    {/* Las ranuras opcionales se omiten enteras: sin hueco cuando faltan. */}
+                    {evento.destacado && (
+                      <p className={styles.eventDestacado}>{evento.destacado}</p>
+                    )}
+                    {invitados && <p className={styles.eventInvitados}>{invitados}</p>}
+
+                    <p className={styles.eventWhen}>
+                      {formatearFecha(evento)} · {formatearHora(evento)} h
+                    </p>
+
+                    {evento.descripcion && (
+                      <p className={styles.eventDesc}>{evento.descripcion}</p>
+                    )}
+
                     <div className={styles.eventFooter}>
-                      <button className={styles.eventButton}>Compartir</button>
-                      {event.price && <span className={styles.eventPrice}>{event.price}</span>}
+                      <span className={styles.eventPrice}>{formatearPrecio(evento)}</span>
                     </div>
                   </div>
                 </article>

@@ -190,3 +190,199 @@
   background-color: #C0392B;
   color: white;
 }
+
+/* --- Bloque 1: campos nuevos --- */
+
+.hint {
+  font-family: var(--font-garamond);
+  font-size: 1rem;
+  color: var(--carbon);
+  opacity: 0.7;
+}
+
+.atajos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.atajo {
+  background: transparent;
+  border: 1px solid var(--verde-medio);
+  color: var(--verde-profundo);
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.atajo:hover {
+  background-color: var(--verde-medio);
+  color: var(--crema-base);
+}
+
+/* Los campos opcionales van agrupados y marcados como tales, para que la
+   captura mínima de un evento se vea corta. */
+.opcionales {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-top: 1px solid var(--crema-base);
+  padding-top: 1.75rem;
+}
+
+.opcionalesTitulo {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkboxRow input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--verde-profundo);
+  flex-shrink: 0;
+}
+
+.checkboxRow span {
+  font-family: var(--font-jost);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--carbon);
+}
+
+.acciones {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.acciones .submitButton {
+  flex: 1;
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid var(--verde-medio);
+  color: var(--verde-profundo);
+  padding: 1.2rem 1.5rem;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.eventBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  padding: 0.75rem;
+  min-width: 64px;
+  flex-shrink: 0;
+}
+
+.eventDay {
+  font-family: var(--font-playfair);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.eventMonth {
+  font-family: var(--font-jost);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.eventInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.eventCiclo {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.25rem;
+}
+
+.eventActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.editButton {
+  background-color: transparent;
+  color: var(--verde-profundo);
+  border: 1px solid var(--verde-medio);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-jost);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editButton:hover {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+}
+
+/* La captura tiene que funcionar bien desde el celular: si publicar el evento
+   del miércoles cuesta trabajo, la página se muere. */
+@media (max-width: 600px) {
+  .container {
+    padding: 2rem 1.25rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .eventItem {
+    flex-wrap: wrap;
+  }
+
+  .eventActions {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .eventActions button {
+    flex: 1;
+  }
+
+  .acciones {
+    flex-direction: column;
+  }
+}

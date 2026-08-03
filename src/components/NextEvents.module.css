@@ -28,6 +28,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  /* Todas las cards de una fila miden lo mismo, tengan o no foto. */
+  grid-auto-rows: 1fr;
 }
 
 @media (max-width: 900px) {
@@ -47,15 +49,10 @@
     padding: 1rem;
     gap: 0.8rem;
   }
-  .eventTitle, .eventSubtitle {
+  .eventTitle, .ciclo {
     white-space: normal;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-  }
-  .eventTitle {
-    -webkit-line-clamp: 2;
-  }
-  .eventSubtitle {
     -webkit-line-clamp: 2;
   }
 }
@@ -116,13 +113,16 @@
   min-width: 0;
 }
 
+/* Fecha y precio comparten renglón. Van en flujo, no flotando: "Costo por
+   confirmar" es mucho más ancho que "$100" y un precio absoluto se encimaba
+   con la fecha en pantallas angostas. Si no caben juntos, el precio baja. */
 .headerRow {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
   margin-bottom: 4px;
-  padding-right: 3.5rem;
 }
 
 .date {
@@ -145,7 +145,7 @@
   text-overflow: ellipsis;
 }
 
-.eventSubtitle {
+.ciclo {
   font-family: var(--font-garamond);
   font-size: 0.95rem;
   color: var(--carbon-medio);
@@ -155,9 +155,6 @@
 }
 
 .priceTag {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
   font-family: var(--font-jost);
   font-size: 10px;
   font-weight: 600;
@@ -169,7 +166,7 @@
   border-radius: 4px;
   display: inline-block;
   flex-shrink: 0;
-  z-index: 1;
+  white-space: nowrap;
 }
 
 .footer {

@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './not-found.module.css';
-import { getProximoEvento } from '@/lib/events';
+import {
+  formatearFecha,
+  formatearHora,
+  getProximoEvento,
+  nombreArtista,
+} from '@/lib/events';
 
 // El proxy rescata /QR y sus variantes, pero no los errores de dedo genuinos
 // (/qqr). Esta página los recibe con la identidad del museo en vez del 404 pelón
@@ -31,10 +36,10 @@ export default async function NotFound() {
 
         {proximoEvento && (
           <div className={styles.eventCard}>
-            <p className={styles.eventLabel}>Próximo evento</p>
-            <p className={styles.eventTitle}>{proximoEvento.titulo}</p>
+            <p className={styles.eventLabel}>{proximoEvento.ciclo}</p>
+            <p className={styles.eventTitle}>{nombreArtista(proximoEvento)}</p>
             <p className={styles.eventDate}>
-              {proximoEvento.fecha} · {proximoEvento.hora} hrs.
+              {formatearFecha(proximoEvento)} · {formatearHora(proximoEvento)} hrs.
             </p>
           </div>
         )}
