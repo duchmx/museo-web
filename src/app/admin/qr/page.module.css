@@ -1,0 +1,248 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  min-height: 80vh;
+}
+
+.header {
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--crema-calida);
+  padding-bottom: 1.5rem;
+}
+
+.backLink {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--verde-medio);
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.backLink:hover {
+  color: var(--verde-profundo);
+}
+
+.title {
+  font-family: var(--font-playfair);
+  font-size: 2.5rem;
+  color: var(--verde-profundo);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.card {
+  background-color: var(--crema-calida);
+  padding: 2.5rem;
+  border-top: 4px solid var(--verde-medio);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.card h2 {
+  font-family: var(--font-playfair);
+  font-size: 1.8rem;
+  color: var(--verde-profundo);
+  margin-bottom: 1rem;
+}
+
+.help {
+  font-family: var(--font-garamond);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--carbon);
+  margin-bottom: 2rem;
+}
+
+.success {
+  background-color: #EDF4EF;
+  color: var(--verde-profundo);
+  padding: 1rem;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--verde-medio);
+}
+
+.error {
+  background-color: #F9F0EE;
+  color: #C0392B;
+  padding: 1rem;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid #C0392B;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--carbon);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.inputGroup input[type="text"] {
+  padding: 1rem;
+  border: 1px solid var(--crema-base);
+  background-color: white;
+  font-family: var(--font-garamond);
+  font-size: 1.1rem;
+  color: var(--carbon);
+  width: 100%;
+}
+
+.inputGroup input[type="text"]:focus {
+  outline: none;
+  border-color: var(--verde-medio);
+}
+
+.atajos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.atajo {
+  background: transparent;
+  border: 1px solid var(--verde-medio);
+  color: var(--verde-profundo);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.atajo:hover {
+  background-color: var(--verde-medio);
+  color: var(--crema-base);
+}
+
+.hint {
+  font-family: var(--font-garamond);
+  font-size: 1rem;
+  color: var(--carbon);
+  opacity: 0.75;
+}
+
+.hint code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background-color: var(--crema-base);
+  padding: 0.1em 0.4em;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkboxRow input {
+  width: 20px;
+  height: 20px;
+  margin-top: 0.15rem;
+  accent-color: var(--verde-profundo);
+  flex-shrink: 0;
+}
+
+.checkboxRow span {
+  font-family: var(--font-jost);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--carbon);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.checkboxRow em {
+  font-family: var(--font-garamond);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.submitButton {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  padding: 1rem;
+  border: none;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: var(--verde-institucional);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contador {
+  font-family: var(--font-playfair);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--verde-profundo);
+}
+
+.contadorLabel {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin: 0.5rem 0 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .container {
+    padding: 2rem 1.25rem;
+  }
+
+  .card {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}

@@ -103,6 +103,12 @@ export default function AdminDashboard() {
           <h2>Administrar Portada</h2>
           <p>Cambiar el evento destacado que aparece en el inicio de la página.</p>
         </Link>
+
+        <Link href="/admin/qr" className={styles.bigButton}>
+          <span className={styles.bigButtonIcon}>📲</span>
+          <h2>Código QR Impreso</h2>
+          <p>Cambiar a dónde llevan los códigos impresos y ver cuántos se han escaneado.</p>
+        </Link>
       </div>
     </div>
   );

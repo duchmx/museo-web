@@ -1,0 +1,117 @@
+.main {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--crema-base);
+  padding: 4rem 1.5rem;
+}
+
+.container {
+  background-color: var(--crema-calida);
+  border-top: 4px solid var(--dorado);
+  padding: 3rem 2rem;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: var(--font-playfair);
+  font-size: 2.25rem;
+  line-height: 1.2;
+  color: var(--verde-profundo);
+  margin-bottom: 1rem;
+}
+
+.text {
+  font-family: var(--font-garamond);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--carbon);
+  margin: 0 auto 2rem;
+  max-width: 42ch;
+}
+
+.eventCard {
+  background-color: var(--crema-base);
+  border-left: 3px solid var(--dorado);
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.eventLabel {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.5rem;
+}
+
+.eventTitle {
+  font-family: var(--font-playfair);
+  font-size: 1.4rem;
+  color: var(--verde-profundo);
+  margin-bottom: 0.25rem;
+}
+
+.eventDate {
+  font-family: var(--font-garamond);
+  font-size: 1.05rem;
+  color: var(--carbon);
+}
+
+.eventDate::first-letter {
+  text-transform: uppercase;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  padding: 1rem 2.5rem;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: var(--verde-institucional);
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.85rem;
+  }
+}
