@@ -28,6 +28,7 @@ export default function EventCard({
 }) {
   const contenido = (
     <>
+      <span className={styles.priceTag}>{formatearPrecio(evento)}</span>
       <div className={styles.imageWrapper}>
         {evento.imagen_thumb ? (
           <Image
@@ -48,7 +49,6 @@ export default function EventCard({
           <p className={styles.date}>
             {formatearFecha(evento, 'corto')} · {formatearHora(evento)} h
           </p>
-          <span className={styles.priceTag}>{formatearPrecio(evento)}</span>
         </div>
         <h3 className={styles.eventTitle}>{nombreArtista(evento)}</h3>
         <p className={styles.ciclo}>{evento.ciclo}</p>

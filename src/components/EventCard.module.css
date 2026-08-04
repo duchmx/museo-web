@@ -54,16 +54,11 @@
   min-width: 0;
 }
 
-/* Fecha y precio comparten renglón. Van en flujo, no flotando: "Costo por
-   confirmar" es mucho más ancho que "$100" y un precio absoluto se encimaba
-   con la fecha en pantallas angostas. Si no caben juntos, el precio baja. */
 .headerRow {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   align-items: baseline;
-  gap: 0.25rem 0.75rem;
   margin-bottom: 4px;
+  padding-right: 75px;
 }
 
 .date {
@@ -76,6 +71,9 @@
 }
 
 .priceTag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
   font-family: var(--font-jost);
   font-size: 10px;
   font-weight: 600;
@@ -85,9 +83,8 @@
   background-color: rgba(26, 74, 46, 0.1);
   padding: 4px 8px;
   border-radius: 4px;
-  display: inline-block;
-  flex-shrink: 0;
   white-space: nowrap;
+  z-index: 1;
 }
 
 .eventTitle {
