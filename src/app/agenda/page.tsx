@@ -1,5 +1,6 @@
 import styles from './page.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   diaDelMes,
   formatearFecha,
@@ -8,6 +9,7 @@ import {
   getEventosFuturos,
   mesAbreviado,
   nombreArtista,
+  rutaEvento,
   textoInvitados,
 } from '@/lib/events';
 
@@ -40,9 +42,10 @@ export default async function AgendaPage() {
               const invitados = textoInvitados(evento);
 
               return (
-                <article
+                <Link
                   key={evento.id}
                   id={`evento-${evento.id}`}
+                  href={rutaEvento(evento)}
                   className={`${styles.eventCard} ${evento.imagen_thumb ? styles.hasImage : ''}`}
                 >
                   <div className={styles.dateBadge}>
@@ -81,9 +84,10 @@ export default async function AgendaPage() {
 
                     <div className={styles.eventFooter}>
                       <span className={styles.eventPrice}>{formatearPrecio(evento)}</span>
+                      <span className={styles.eventMas}>Ver detalles →</span>
                     </div>
                   </div>
-                </article>
+                </Link>
               );
             })
           )}

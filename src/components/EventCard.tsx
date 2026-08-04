@@ -8,6 +8,7 @@ import {
   formatearHora,
   formatearPrecio,
   nombreArtista,
+  rutaEvento,
 } from '@/lib/events';
 
 /**
@@ -62,7 +63,7 @@ export default function EventCard({
   }
 
   return (
-    <Link href={`/agenda#evento-${evento.id}`} className={styles.card}>
+    <Link href={rutaEvento(evento)} className={styles.card}>
       {contenido}
     </Link>
   );

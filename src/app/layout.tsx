@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_URL } from "@/lib/site";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -21,6 +22,8 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  // Sin metadataBase, Next no puede resolver URLs relativas de Open Graph.
+  metadataBase: new URL(SITE_URL),
   title: "Museo de la Canción Yucateca",
   description: "Somos el espacio vivo donde el patrimonio musical de Yucatán se preserva, se cuenta y se hereda — cultivando en las nuevas generaciones la pasión por la canción que define nuestra identidad colectiva.",
   keywords: ["Museo de la Canción Yucateca", "Música Yucateca", "Canción Yucateca", "Patrimonio Musical", "Yucatán", "Música", "Canción"],
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_MX",
-    url: "https://museodelacancionyucateca.mx",
+    url: SITE_URL,
     siteName: "Museo de la Canción Yucateca",
     title: "Museo de la Canción Yucateca",
     description: "Somos el espacio vivo donde el patrimonio musical de Yucatán se preserva, se cuenta y se hereda — cultivando en las nuevas generaciones la pasión por la canción que define nuestra identidad colectiva.",

@@ -6,6 +6,7 @@ import {
   formatearHora,
   formatearPrecio,
   nombreArtista,
+  rutaEvento,
 } from '@/lib/events';
 
 /**
@@ -77,7 +78,7 @@ export default function HeroSlide({
         {estatico ? (
           <span className={styles.boton}>Ver detalles</span>
         ) : (
-          <a href={`/agenda#evento-${evento.id}`} className={styles.boton}>
+          <a href={rutaEvento(evento)} className={styles.boton}>
             Ver detalles
           </a>
         )}

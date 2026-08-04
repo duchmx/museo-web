@@ -199,6 +199,19 @@
   flex-wrap: wrap;
 }
 
+.eventMas {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+}
+
+.eventCard:hover .eventMas {
+  color: var(--verde-profundo);
+}
+
 .eventPrice {
   font-family: var(--font-jost);
   font-size: 11px;

@@ -13,6 +13,8 @@ export const PRECIO_POR_CONFIRMAR = 'Costo por confirmar';
 
 export type Evento = {
   id: string;
+  /** URL legible: '26-ago-artes-trio'. Puede faltar; entonces se resuelve por id. */
+  slug: string | null;
   ciclo: string;
   artista: string | null;
   /** 'YYYY-MM-DD', sin zona horaria */
@@ -30,7 +32,7 @@ export type Evento = {
 };
 
 export const CAMPOS_EVENTO =
-  'id, ciclo, artista, event_date, event_time, precio, destacado, invitados, descripcion, imagen_hero, imagen_thumb, imagen_poster, mostrar_en_hero';
+  'id, slug, ciclo, artista, event_date, event_time, precio, destacado, invitados, descripcion, imagen_hero, imagen_thumb, imagen_poster, mostrar_en_hero';
 
 /**
  * Instante real del evento.
@@ -167,4 +169,64 @@ export function formatearPrecio(evento: Pick<Evento, 'precio'>): string {
 export function textoInvitados(evento: Pick<Evento, 'invitados'>): string | null {
   const invitados = evento.invitados?.trim();
   return invitados ? `Trío invitado: ${invitados}` : null;
+}
+
+const MESES_CORTOS = [
+  'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+];
+
+/**
+ * Slug legible: '26-ago-artes-trio'. Sin artista confirmado: '26-ago-por-confirmar'.
+ *
+ * Vive aquí, y no en el admin, para que el formato tenga un solo dueño: lo
+ * genera el formulario al guardar y lo consume la página del evento.
+ */
+export function generarSlug(
+  evento: Pick<Evento, 'event_date' | 'artista'>
+): string {
+  const [, mes, dia] = evento.event_date.split('-');
+  const mesCorto = MESES_CORTOS[Number(mes) - 1] ?? '';
+  const artista = evento.artista?.trim() || 'por confirmar';
+
+  return `${Number(dia)}-${mesCorto}-${artista}`
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // quita acentos: 'Trío' -> 'Trio'
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/** Ruta canónica del evento. Cae al id si por lo que sea no tiene slug. */
+export function rutaEvento(evento: Pick<Evento, 'id' | 'slug'>): string {
+  return `/evento/${evento.slug || evento.id}`;
+}
+
+const ES_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Busca por slug y, si no aparece, por id.
+ *
+ * El slug se regenera al guardar —para que deje de decir "por-confirmar" cuando
+ * se confirma el artista—, así que un enlace compartido antes puede quedar
+ * viejo. La página lo resuelve mandando a la agenda en vez de dar error.
+ */
+export async function getEventoPorSlug(parametro: string): Promise<Evento | null> {
+  const { data } = await supabase
+    .from('events')
+    .select(CAMPOS_EVENTO)
+    .eq('slug', parametro)
+    .maybeSingle();
+
+  if (data) return data as Evento;
+
+  if (!ES_UUID.test(parametro)) return null;
+
+  const { data: porId } = await supabase
+    .from('events')
+    .select(CAMPOS_EVENTO)
+    .eq('id', parametro)
+    .maybeSingle();
+
+  return (porId as Evento) ?? null;
 }

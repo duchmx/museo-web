@@ -8,6 +8,11 @@
   --dorado-claro: #D4A017;
   --dorado-palido: #F0D080;
   --carbon: #1C1C1A;
+  /* Gris cálido para texto secundario. Contraste ~6.8:1 sobre --crema-base:
+     holgado para AA, que importa con público mayor. */
+  --carbon-medio: #55534E;
+  /* Tono entre --crema-calida y --dorado-palido, pensado para bordes suaves. */
+  --crema-oscura: #DCD5C6;
 }
 
 * {

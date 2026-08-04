@@ -1,0 +1,74 @@
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Área táctil generosa y 16px de texto: el público del museo es mayor. */
+.boton,
+.botonPrincipal {
+  font-family: var(--font-jost);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 0.9rem 1.75rem;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botonPrincipal {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  border: 1px solid var(--verde-profundo);
+}
+
+.botonPrincipal:hover:not(:disabled) {
+  background-color: var(--verde-institucional);
+  border-color: var(--verde-institucional);
+}
+
+.botonPrincipal:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.boton {
+  background-color: transparent;
+  color: var(--verde-profundo);
+  border: 1px solid var(--verde-medio);
+}
+
+.boton:hover {
+  background-color: var(--verde-profundo);
+  color: var(--crema-base);
+  border-color: var(--verde-profundo);
+}
+
+.aviso,
+.avisoError {
+  font-family: var(--font-garamond);
+  font-size: 1rem;
+}
+
+.aviso {
+  color: var(--verde-medio);
+}
+
+.avisoError {
+  color: #C0392B;
+}
+
+@media (max-width: 600px) {
+  .contenedor {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton,
+  .botonPrincipal {
+    width: 100%;
+    text-align: center;
+  }
+}

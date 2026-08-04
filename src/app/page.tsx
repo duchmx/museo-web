@@ -22,7 +22,7 @@ export default async function Home() {
 
       <section className={styles.quoteBuffer}>
         <div className={styles.quoteContainer}>
-          <h2 className={styles.quote}>"Un espacio donde el pasado canta y el futuro escucha"</h2>
+          <h2 className={styles.quote}>&ldquo;Un espacio donde el pasado canta y el futuro escucha&rdquo;</h2>
           <div className={styles.quoteDivider}></div>
         </div>
       </section>

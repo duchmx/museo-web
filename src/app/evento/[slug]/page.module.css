@@ -1,0 +1,183 @@
+.main {
+  background-color: var(--crema-base);
+  min-height: 70vh;
+  padding: 3rem 2rem 5rem;
+}
+
+.contenedor {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.volver {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  display: inline-block;
+  margin-bottom: 2.5rem;
+}
+
+.volver:hover {
+  color: var(--verde-profundo);
+}
+
+/* Sin póster la columna desaparece y el texto ocupa el ancho: la maqueta base
+   es el evento recién capturado, sin foto. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.layout:has(.info:only-child) {
+  grid-template-columns: minmax(0, 720px);
+}
+
+.posterWrapper {
+  background-color: var(--crema-calida);
+  border-top: 4px solid var(--dorado);
+  padding: 1rem;
+}
+
+/* Vertical y sin obligar a hacer zoom en móvil. */
+.poster {
+  width: 100%;
+  height: auto;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+}
+
+.ciclo {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.75rem;
+}
+
+.titulo {
+  font-family: var(--font-playfair);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--verde-profundo);
+  margin-bottom: 1rem;
+}
+
+/* Dorado solo como acento, nunca como fondo amplio. */
+.destacado {
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  border-left: 3px solid var(--dorado);
+  padding-left: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.invitados {
+  font-family: var(--font-garamond);
+  font-size: 1.15rem;
+  color: var(--carbon);
+  margin-bottom: 0.85rem;
+}
+
+.datos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2rem 0;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--crema-oscura);
+  border-bottom: 1px solid var(--crema-oscura);
+}
+
+.dato dt {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.35rem;
+}
+
+.dato dd {
+  font-family: var(--font-garamond);
+  font-size: 1.15rem;
+  color: var(--carbon);
+  line-height: 1.5;
+}
+
+/* Para un turista que no conoce al artista, la fecha es el dato decisivo. */
+.cuando {
+  font-family: var(--font-jost) !important;
+  font-size: 1.3rem !important;
+  font-weight: 500;
+  color: var(--verde-profundo) !important;
+}
+
+.cuando::first-letter {
+  text-transform: uppercase;
+}
+
+.precio {
+  font-weight: 600;
+}
+
+.enlace {
+  color: var(--verde-profundo);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.enlace:hover {
+  color: var(--verde-medio);
+}
+
+.descripcion {
+  font-family: var(--font-garamond);
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--carbon-medio);
+  margin-bottom: 2.5rem;
+}
+
+.compartirTitulo {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 860px) {
+  .main {
+    padding: 2rem 1.25rem 3.5rem;
+  }
+
+  .layout,
+  .layout:has(.info:only-child) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .volver {
+    margin-bottom: 1.5rem;
+  }
+
+  .poster {
+    max-height: 70vh;
+  }
+}

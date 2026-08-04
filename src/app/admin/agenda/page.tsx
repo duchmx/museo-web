@@ -13,6 +13,7 @@ import {
   formatearFecha,
   formatearHora,
   formatearPrecio,
+  generarSlug,
   hoyEnMerida,
   instanteDe,
   mesAbreviado,
@@ -155,6 +156,23 @@ export default function AdminAgenda() {
     return supabase.storage.from("museum-assets").getPublicUrl(ruta).data.publicUrl;
   };
 
+  /**
+   * El slug se regenera en cada guardado, para que deje de decir
+   * "por-confirmar" en cuanto se confirma el artista. Si otro evento ya lo
+   * tiene, se le agrega sufijo.
+   */
+  const slugDisponible = async (base: string) => {
+    for (let n = 1; n <= 20; n++) {
+      const candidato = n === 1 ? base : `${base}-${n}`;
+      let consulta = supabase.from("events").select("id").eq("slug", candidato).limit(1);
+      if (editandoId) consulta = consulta.neq("id", editandoId);
+
+      const { data } = await consulta;
+      if (!data || data.length === 0) return candidato;
+    }
+    return `${base}-${Date.now()}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setGuardando(true);
@@ -170,6 +188,9 @@ export default function AdminAgenda() {
       }
 
       const registro = {
+        slug: await slugDisponible(
+          generarSlug({ event_date: form.event_date, artista: form.artista.trim() || null })
+        ),
         ciclo: form.ciclo.trim(),
         artista: form.artista.trim() || null,
         event_date: form.event_date,
@@ -210,6 +231,7 @@ export default function AdminAgenda() {
 
   const eventoPreview: Evento = {
     id: "preview",
+    slug: null,
     ciclo: form.ciclo.trim() || "Ciclo del evento",
     artista: form.artista.trim() || null,
     event_date: form.event_date || hoyEnMerida(),
