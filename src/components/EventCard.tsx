@@ -47,7 +47,8 @@ export default function EventCard({
       <div className={styles.content}>
         <div className={styles.headerRow}>
           <p className={styles.date}>
-            {formatearFecha(evento, 'corto')} · {formatearHora(evento)} h
+            <span>{formatearFecha(evento, 'corto')}</span>
+            <span className={styles.timeBlock}> · {formatearHora(evento)} h</span>
           </p>
         </div>
         <h3 className={styles.eventTitle}>{nombreArtista(evento)}</h3>

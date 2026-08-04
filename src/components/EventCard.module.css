@@ -58,7 +58,7 @@
   display: flex;
   align-items: baseline;
   margin-bottom: 4px;
-  padding-right: 75px;
+  padding-right: 50px;
 }
 
 .date {
@@ -68,6 +68,11 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--verde-medio);
+  line-height: 1.25;
+}
+
+.timeBlock {
+  white-space: nowrap;
 }
 
 .priceTag {
@@ -89,7 +94,7 @@
 
 .eventTitle {
   font-family: var(--font-playfair);
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: var(--carbon);
   font-weight: 600;
   margin-bottom: 2px;
