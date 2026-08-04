@@ -1,0 +1,126 @@
+.card {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  text-decoration: none;
+  transition: border-color 0.2s;
+  border: 1px solid var(--crema-oscura);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  border-color: var(--dorado);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--verde-profundo);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--crema-base);
+}
+
+.dateDay {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Fecha y precio comparten renglón. Van en flujo, no flotando: "Costo por
+   confirmar" es mucho más ancho que "$100" y un precio absoluto se encimaba
+   con la fecha en pantallas angostas. Si no caben juntos, el precio baja. */
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 4px;
+}
+
+.date {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+}
+
+.priceTag {
+  font-family: var(--font-jost);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--verde-profundo);
+  background-color: rgba(26, 74, 46, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.eventTitle {
+  font-family: var(--font-playfair);
+  font-size: 1.1rem;
+  color: var(--carbon);
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ciclo {
+  font-family: var(--font-garamond);
+  font-size: 0.95rem;
+  color: var(--carbon-medio);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+
+  .eventTitle,
+  .ciclo {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}

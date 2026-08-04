@@ -64,6 +64,9 @@
 }
 
 .eventCard {
+  /* El header es sticky: sin esto, el ancla #evento-{id} del hero dejaría la
+     tarjeta medio tapada. */
+  scroll-margin-top: 120px;
   background-color: var(--crema-calida);
   border-top: 3px solid var(--verde-medio);
   display: grid;

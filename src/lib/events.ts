@@ -89,6 +89,20 @@ export async function getProximoEvento(): Promise<Evento | null> {
   return proximo ?? null;
 }
 
+/**
+ * Diapositivas del hero: siempre primero el evento más próximo, después los que
+ * tengan `mostrar_en_hero` activo.
+ *
+ * El más próximo se saca antes de filtrar, así que nunca se duplica aunque
+ * también venga marcado.
+ */
+export async function getEventosHero(): Promise<Evento[]> {
+  const [proximo, ...resto] = await getEventosFuturos();
+  if (!proximo) return [];
+
+  return [proximo, ...resto.filter((evento) => evento.mostrar_en_hero)];
+}
+
 export function formatearFecha(
   evento: Pick<Evento, 'event_date' | 'event_time'>,
   estilo: 'largo' | 'corto' = 'largo'

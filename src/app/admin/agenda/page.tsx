@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase/client";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import EventoPreview from "./EventoPreview";
 import {
   type Evento,
   CAMPOS_EVENTO,
@@ -12,6 +13,8 @@ import {
   formatearFecha,
   formatearHora,
   formatearPrecio,
+  hoyEnMerida,
+  instanteDe,
   mesAbreviado,
   nombreArtista,
 } from "@/lib/events";
@@ -62,6 +65,26 @@ export default function AdminAgenda() {
     Partial<Record<RanuraImagen, string | null>>
   >({});
   const [archivos, setArchivos] = useState<Partial<Record<RanuraImagen, File>>>({});
+  // Instante de referencia para decidir qué evento es el más próximo. Se toma
+  // junto con la lista, para que ambos sean la misma foto del momento.
+  const [ahora, setAhora] = useState(0);
+
+  // Las imágenes recién elegidas todavía no están en Supabase: se muestran desde
+  // el archivo local.
+  const urlsPreview = useMemo(() => {
+    const urls: Partial<Record<RanuraImagen, string>> = {};
+    for (const { campo } of RANURAS_IMAGEN) {
+      const archivo = archivos[campo];
+      if (archivo) urls[campo] = URL.createObjectURL(archivo);
+    }
+    return urls;
+  }, [archivos]);
+
+  // Se liberan al cambiarlas o al salir, para no filtrar memoria.
+  useEffect(
+    () => () => Object.values(urlsPreview).forEach((url) => URL.revokeObjectURL(url)),
+    [urlsPreview]
+  );
 
   const cargarEventos = useCallback(async () => {
     setLoading(true);
@@ -72,6 +95,7 @@ export default function AdminAgenda() {
       .order("event_time", { ascending: true });
 
     setEventos((data as Evento[]) ?? []);
+    setAhora(Date.now());
     setLoading(false);
   }, []);
 
@@ -183,6 +207,34 @@ export default function AdminAgenda() {
   };
 
   if (loading) return <div className={styles.container}>Cargando...</div>;
+
+  const eventoPreview: Evento = {
+    id: "preview",
+    ciclo: form.ciclo.trim() || "Ciclo del evento",
+    artista: form.artista.trim() || null,
+    event_date: form.event_date || hoyEnMerida(),
+    event_time: form.event_time || "20:00",
+    precio: form.precio.trim() || null,
+    destacado: form.destacado.trim() || null,
+    invitados: form.invitados.trim() || null,
+    descripcion: form.descripcion.trim() || null,
+    imagen_hero: urlsPreview.imagen_hero ?? imagenesActuales.imagen_hero ?? null,
+    imagen_thumb: urlsPreview.imagen_thumb ?? imagenesActuales.imagen_thumb ?? null,
+    imagen_poster: urlsPreview.imagen_poster ?? imagenesActuales.imagen_poster ?? null,
+    mostrar_en_hero: form.mostrar_en_hero,
+  };
+
+  // El hero muestra el más próximo más los marcados: la previa dice la verdad
+  // sobre si este evento va a salir en portada o no.
+  const instantePreview = instanteDe(eventoPreview).getTime();
+  const esElMasProximo =
+    Boolean(form.event_date) &&
+    instantePreview >= ahora &&
+    eventos
+      .filter((ev) => ev.id !== editandoId && instanteDe(ev).getTime() >= ahora)
+      .every((ev) => instantePreview <= instanteDe(ev).getTime());
+
+  const saleEnHero = form.mostrar_en_hero || esElMasProximo;
 
   return (
     <div className={styles.container}>
@@ -378,6 +430,10 @@ export default function AdminAgenda() {
         </div>
 
         <div className={styles.listSection}>
+          <div className={styles.previewSticky}>
+            <EventoPreview evento={eventoPreview} saleEnHero={saleEnHero} />
+          </div>
+
           <h2>Eventos programados</h2>
           {eventos.length === 0 ? (
             <p className={styles.emptyMsg}>No hay eventos programados.</p>

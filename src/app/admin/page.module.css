@@ -145,6 +145,15 @@
   color: var(--verde-profundo);
 }
 
+.dashIntro {
+  font-family: var(--font-garamond);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--carbon);
+  max-width: 60ch;
+  margin-bottom: 2.5rem;
+}
+
 .bigButtonsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

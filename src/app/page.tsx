@@ -1,31 +1,22 @@
 import styles from "./page.module.css";
 import Image from "next/image";
-import { createClient } from '@supabase/supabase-js';
 import HeroCarousel from "@/components/HeroCarousel";
 import NextEvents from "@/components/NextEvents";
-import { getEventosFuturos } from "@/lib/events";
+import { getEventosFuturos, getEventosHero } from "@/lib/events";
 
 export const revalidate = 0;
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export default async function Home() {
-  // Fetch active heroes
-  const { data: heroes } = await supabase
-    .from('hero_templates')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: true });
-
-  // El filtro por fecha y la zona horaria viven en getEventosFuturos().
-  const events = await getEventosFuturos(6);
+  // El hero se compone desde los mismos eventos que la agenda: no hay textos de
+  // portada que puedan quedarse desfasados.
+  const [eventosHero, events] = await Promise.all([
+    getEventosHero(),
+    getEventosFuturos(6),
+  ]);
 
   return (
     <main className={styles.main}>
-      <HeroCarousel heroes={heroes || []} />
+      <HeroCarousel eventos={eventosHero} />
 
       <NextEvents events={events} />
 

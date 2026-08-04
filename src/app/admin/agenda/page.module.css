@@ -127,6 +127,19 @@
   cursor: not-allowed;
 }
 
+/* La previa acompaña al formulario mientras se hace scroll: capturar a ciegas
+   es lo que hace que la gente deje de publicar. */
+.previewSticky {
+  position: sticky;
+  top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .previewSticky {
+    position: static;
+  }
+}
+
 /* List Section */
 .listSection h2 {
   font-family: var(--font-playfair);

@@ -1,0 +1,69 @@
+.panel {
+  background-color: var(--crema-calida);
+  border-top: 4px solid var(--dorado);
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  margin-bottom: 3rem;
+}
+
+.titulo {
+  font-family: var(--font-playfair);
+  font-size: 1.8rem;
+  color: var(--verde-profundo);
+  margin-bottom: 0.5rem;
+}
+
+.ayuda {
+  font-family: var(--font-garamond);
+  font-size: 1.05rem;
+  color: var(--carbon);
+  opacity: 0.75;
+  margin-bottom: 1.75rem;
+}
+
+.bloque + .bloque {
+  margin-top: 1.75rem;
+}
+
+.etiqueta {
+  font-family: var(--font-jost);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde-medio);
+  margin-bottom: 0.75rem;
+}
+
+.marcoHero {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--verde-profundo);
+}
+
+.lienzoHero {
+  transform-origin: top left;
+}
+
+.noSale {
+  font-family: var(--font-garamond);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--carbon);
+  background-color: var(--crema-base);
+  border-left: 3px solid var(--verde-medio);
+  padding: 1rem;
+}
+
+/* Fondo igual al de la sección real de la portada, para que el contraste de la
+   card se juzgue en su contexto. */
+.marcoCard {
+  background-color: var(--crema-calida);
+  padding: 0.5rem 0;
+}
+
+@media (max-width: 900px) {
+  .panel {
+    padding: 1.5rem 1.25rem;
+  }
+}

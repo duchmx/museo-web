@@ -91,17 +91,16 @@ export default function AdminDashboard() {
         <button onClick={handleLogout} className={styles.logoutButton}>Cerrar Sesión</button>
       </header>
       
+      <p className={styles.dashIntro}>
+        Cada evento se captura una sola vez. De ahí salen la portada y la agenda,
+        así que no hay nada que actualizar por separado.
+      </p>
+
       <div className={styles.bigButtonsGrid}>
         <Link href="/admin/agenda" className={styles.bigButton}>
           <span className={styles.bigButtonIcon}>📅</span>
           <h2>Administrar Eventos</h2>
-          <p>Añadir, editar o eliminar los eventos de la agenda principal.</p>
-        </Link>
-        
-        <Link href="/admin/portada" className={styles.bigButton}>
-          <span className={styles.bigButtonIcon}>🖼️</span>
-          <h2>Administrar Portada</h2>
-          <p>Cambiar el evento destacado que aparece en el inicio de la página.</p>
+          <p>Añadir, editar o eliminar eventos. Lo que captures aquí aparece en la portada y en la agenda.</p>
         </Link>
 
         <Link href="/admin/qr" className={styles.bigButton}>

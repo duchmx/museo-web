@@ -42,6 +42,7 @@ export default async function AgendaPage() {
               return (
                 <article
                   key={evento.id}
+                  id={`evento-${evento.id}`}
                   className={`${styles.eventCard} ${evento.imagen_thumb ? styles.hasImage : ''}`}
                 >
                   <div className={styles.dateBadge}>
