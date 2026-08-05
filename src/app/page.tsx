@@ -57,8 +57,7 @@ export default async function Home() {
               <ul>
                 <li><strong>Martes a Viernes:</strong> 9:00 a 17:00 hrs.</li>
                 <li><strong>Sábados:</strong> 9:00 a 15:00 hrs.</li>
-                <li><strong>Domingos:</strong> 10:00 a 14:00 hrs.</li>
-                <li><strong>Lunes:</strong> Cerrado</li>
+                <li><strong>Domingos y Lunes:</strong> Cerrado</li>
               </ul>
             </div>
 
@@ -67,7 +66,6 @@ export default async function Home() {
               <ul>
                 <li><strong>Entrada General:</strong> $50 MXN</li>
                 <li><strong>Estudiantes e INAPAM:</strong> $25 MXN</li>
-                <li><strong>Domingos:</strong> Entrada libre (Nacionales)</li>
               </ul>
             </div>
 
