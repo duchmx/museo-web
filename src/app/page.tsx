@@ -4,7 +4,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import NextEvents from "@/components/NextEvents";
 import { getEventosFuturos, getEventosHero } from "@/lib/events";
 
-export const revalidate = 0;
+export const revalidate = 60; // Revalida los datos cada 60 segundos
 
 export default async function Home() {
   // El hero se compone desde los mismos eventos que la agenda: no hay textos de
