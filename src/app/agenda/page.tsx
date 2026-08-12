@@ -17,7 +17,7 @@ export const metadata = {
   title: 'Agenda de Eventos | Museo de la Canción Yucateca',
 };
 
-export const revalidate = 60; // Revalida los datos cada 60 segundos
+export const revalidate = false; // Revalidación bajo demanda (al modificar eventos)
 
 export default async function AgendaPage() {
   const eventos = await getEventosFuturos();

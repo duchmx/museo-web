@@ -15,7 +15,7 @@ import {
   textoInvitados,
 } from "@/lib/events";
 
-export const revalidate = 60; // Revalida los datos cada 60 segundos
+export const revalidate = false; // Revalidación bajo demanda (al modificar eventos)
 
 const MAPA =
   "https://maps.google.com/?q=Museo+de+la+Canción+Yucateca";

@@ -211,6 +211,8 @@ export default function AdminAgenda() {
 
       if (error) throw error;
 
+      solicitarRevalidacion();
+
       limpiarFormulario();
       cargarEventos();
     } catch (error) {
@@ -220,9 +222,20 @@ export default function AdminAgenda() {
     }
   };
 
+  const solicitarRevalidacion = async () => {
+    try {
+      await fetch("/api/revalidate", { method: "POST" });
+    } catch {
+      // Revalidación silenciosa: si falla no bloquea la experiencia del admin
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm("¿Eliminar este evento? Esta acción no se puede deshacer.")) return;
-    await supabase.from("events").delete().eq("id", id);
+    const { error } = await supabase.from("events").delete().eq("id", id);
+    if (!error) {
+      solicitarRevalidacion();
+    }
     if (editandoId === id) limpiarFormulario();
     cargarEventos();
   };
