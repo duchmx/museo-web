@@ -4,7 +4,11 @@ import HeroCarousel from "@/components/HeroCarousel";
 import NextEvents from "@/components/NextEvents";
 import { getEventosFuturos, getEventosHero } from "@/lib/events";
 
-export const revalidate = false; // Revalidación bajo demanda (al modificar eventos)
+// "Próximo evento" depende del reloj, no solo de la base de datos: aunque
+// nadie edite nada, un concierto pasa y otro debe tomar su lugar. Por eso no
+// basta con revalidar bajo demanda (al guardar en el admin) — hace falta
+// además un intervalo corto que autocorrija el sitio con el paso del tiempo.
+export const revalidate = 3600;
 
 export default async function Home() {
   // El hero se compone desde los mismos eventos que la agenda: no hay textos de

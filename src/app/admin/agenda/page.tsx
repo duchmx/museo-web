@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import EventoPreview from "./EventoPreview";
+import { revalidarPaginasDeEventos } from "./actions";
 import {
   type Evento,
   CAMPOS_EVENTO,
@@ -224,9 +225,10 @@ export default function AdminAgenda() {
 
   const solicitarRevalidacion = async () => {
     try {
-      await fetch("/api/revalidate", { method: "POST" });
+      await revalidarPaginasDeEventos();
     } catch {
       // Revalidación silenciosa: si falla no bloquea la experiencia del admin
+      // (además, la revalidación periódica de las páginas la corrige sola).
     }
   };
 

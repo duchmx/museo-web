@@ -17,7 +17,9 @@ export const metadata = {
   title: 'Agenda de Eventos | Museo de la Canción Yucateca',
 };
 
-export const revalidate = false; // Revalidación bajo demanda (al modificar eventos)
+// Ver la nota en src/app/page.tsx: el listado de eventos futuros depende del
+// reloj, así que además de revalidar bajo demanda hace falta un intervalo corto.
+export const revalidate = 3600;
 
 export default async function AgendaPage() {
   const eventos = await getEventosFuturos();

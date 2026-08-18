@@ -15,7 +15,10 @@ import {
   textoInvitados,
 } from "@/lib/events";
 
-export const revalidate = false; // Revalidación bajo demanda (al modificar eventos)
+// Ver la nota en src/app/page.tsx: si un evento pasa, este slug debe dejar de
+// resolver como "próximo" (afecta sobre todo su Open Graph); un intervalo
+// corto lo autocorrige sin depender de que alguien edite algo en el admin.
+export const revalidate = 3600;
 
 const MAPA =
   "https://maps.google.com/?q=Museo+de+la+Canción+Yucateca";
