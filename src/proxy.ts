@@ -13,9 +13,22 @@ import { createAdminClient } from '@/lib/supabase/admin';
  * el matcher: las clases [qQ][rR] cubren /qr, /QR, /Qr y /qR. El segundo patrón
  * deja listas las variantes /qr-hotel y /qr-tienda — basta insertar la fila en
  * la tabla `redirects`, sin tocar código.
+ *
+ * El tercer patrón corta en seco a los escáneres que prueban rutas tipo
+ * /info/1234567.phtml: el sitio nunca sirve esas extensiones, así que cualquier
+ * intento se responde con 404 aquí mismo en vez de dejarlo caer hasta el render
+ * completo de la página 404. A propósito no se amplía el matcher a "todo",
+ * porque Proxy corre en Node.js antes que el caché — matchear de más movería
+ * tráfico que hoy sirve gratis el CDN (p. ej. "/") a través de una función.
  */
+const EXTENSIONES_SOSPECHOSAS = /\.(php|phtml|asp|aspx|jsp|cgi|env)$/i;
+
 export const config = {
-  matcher: ['/:slug([qQ][rR])', '/:slug([qQ][rR]-[a-zA-Z0-9-]+)'],
+  matcher: [
+    '/:slug([qQ][rR])',
+    '/:slug([qQ][rR]-[a-zA-Z0-9-]+)',
+    '/(.*)\\.(php|phtml|asp|aspx|jsp|cgi|env)$',
+  ],
 };
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
@@ -23,6 +36,10 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 
   if (esRutaQR(slug)) {
     return manejarQR(request, event, slug);
+  }
+
+  if (EXTENSIONES_SOSPECHOSAS.test(request.nextUrl.pathname)) {
+    return new NextResponse(null, { status: 404 });
   }
 
   // Aquí se enchufa la detección de idioma del bloque 5, en la misma pasada.
