@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { apiUrl } from "@/lib/api";
+import { authHeaders, haySesion } from "@/lib/adminAuth";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,6 @@ import EventoPreview from "./EventoPreview";
 import { revalidarPaginasDeEventos } from "./actions";
 import {
   type Evento,
-  CAMPOS_EVENTO,
   diaDelMes,
   formatearFecha,
   formatearHora,
@@ -90,11 +90,9 @@ export default function AdminAgenda() {
 
   const cargarEventos = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("events")
-      .select(CAMPOS_EVENTO)
-      .order("event_date", { ascending: true })
-      .order("event_time", { ascending: true });
+    // events.php ya devuelve los eventos ordenados por fecha y hora.
+    const res = await fetch(apiUrl("events.php"), { cache: "no-store" });
+    const data = res.ok ? await res.json() : [];
 
     setEventos((data as Evento[]) ?? []);
     setAhora(Date.now());
@@ -102,8 +100,8 @@ export default function AdminAgenda() {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
+    haySesion().then((activa) => {
+      if (!activa) {
         router.push("/admin");
       } else {
         cargarEventos();
@@ -146,15 +144,19 @@ export default function AdminAgenda() {
   };
 
   const subirImagen = async (campo: RanuraImagen, archivo: File) => {
-    const extension = archivo.name.split(".").pop();
-    const ruta = `evento/${crypto.randomUUID()}-${campo}.${extension}`;
+    const formData = new FormData();
+    formData.append("file", archivo);
 
-    const { error } = await supabase.storage
-      .from("museum-assets")
-      .upload(ruta, archivo);
-    if (error) throw error;
+    const res = await fetch(apiUrl("upload.php"), {
+      method: "POST",
+      headers: authHeaders(),
+      body: formData,
+    });
 
-    return supabase.storage.from("museum-assets").getPublicUrl(ruta).data.publicUrl;
+    const cuerpo = await res.json();
+    if (!res.ok) throw new Error(cuerpo.error ?? `No se pudo subir ${campo}`);
+
+    return cuerpo.url as string;
   };
 
   /**
@@ -165,11 +167,10 @@ export default function AdminAgenda() {
   const slugDisponible = async (base: string) => {
     for (let n = 1; n <= 20; n++) {
       const candidato = n === 1 ? base : `${base}-${n}`;
-      let consulta = supabase.from("events").select("id").eq("slug", candidato).limit(1);
-      if (editandoId) consulta = consulta.neq("id", editandoId);
+      const res = await fetch(apiUrl("events.php", { slug: candidato }), { cache: "no-store" });
+      const existente = res.ok ? await res.json() : null;
 
-      const { data } = await consulta;
-      if (!data || data.length === 0) return candidato;
+      if (!existente || existente.id === editandoId) return candidato;
     }
     return `${base}-${Date.now()}`;
   };
@@ -206,11 +207,16 @@ export default function AdminAgenda() {
         imagen_poster: imagenes.imagen_poster ?? null,
       };
 
-      const { error } = editandoId
-        ? await supabase.from("events").update(registro).eq("id", editandoId)
-        : await supabase.from("events").insert([registro]);
+      const res = await fetch(apiUrl("events.php"), {
+        method: editandoId ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(editandoId ? { ...registro, id: editandoId } : registro),
+      });
 
-      if (error) throw error;
+      if (!res.ok) {
+        const cuerpo = await res.json().catch(() => null);
+        throw new Error(cuerpo?.error ?? "No se pudo guardar el evento");
+      }
 
       solicitarRevalidacion();
 
@@ -234,8 +240,11 @@ export default function AdminAgenda() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("¿Eliminar este evento? Esta acción no se puede deshacer.")) return;
-    const { error } = await supabase.from("events").delete().eq("id", id);
-    if (!error) {
+    const res = await fetch(apiUrl("events.php", { id }), {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+    if (res.ok) {
       solicitarRevalidacion();
     }
     if (editandoId === id) limpiarFormulario();

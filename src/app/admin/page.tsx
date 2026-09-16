@@ -1,72 +1,55 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Session } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase/client";
+import { haySesion, iniciarSesion, cerrarSesion } from "@/lib/adminAuth";
 import styles from "./page.module.css";
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [email, setEmail] = useState("");
+  const [sesionActiva, setSesionActiva] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    haySesion().then((activa) => {
+      setSesionActiva(activa);
       setLoading(false);
     });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) setError(error.message);
+    try {
+      await iniciarSesion(password);
+      setSesionActiva(true);
+    } catch (err) {
+      setError((err as Error).message);
+    }
     setLoading(false);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    cerrarSesion();
+    setSesionActiva(false);
   };
 
   if (loading) {
     return <div className={styles.container}>Cargando...</div>;
   }
 
-  if (!session) {
+  if (!sesionActiva) {
     return (
       <div className={styles.container}>
         <div className={styles.loginBox}>
           <h1 className={styles.title}>Acceso Administrativo</h1>
           <p className={styles.subtitle}>Museo de la Canción Yucateca</p>
-          
+
           {error && <div className={styles.error}>{error}</div>}
-          
+
           <form onSubmit={handleLogin} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <label>Correo Electrónico</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
             <div className={styles.inputGroup}>
               <label>Contraseña</label>
               <input

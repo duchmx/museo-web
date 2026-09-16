@@ -1,9 +1,10 @@
-import { createAdminClient } from './supabase/admin';
+import { apiUrl } from './api';
 
 /**
  * Destino de emergencia. Vive en código a propósito: hay papel impreso en la
  * calle apuntando a mucy.mx/QR y un escaneo nunca debe terminar en error porque
- * Supabase esté caído o lento. El destino normal vive en la base de datos.
+ * el API en Hostinger esté caído o lento. El destino normal vive en la base
+ * de datos.
  */
 export const DESTINO_FALLBACK = '/';
 
@@ -34,17 +35,19 @@ function fallbackPara(slug: string): Redirect {
  */
 export async function resolveRedirect(slug: string): Promise<Redirect> {
   try {
-    const { data, error } = await createAdminClient()
-      .from('redirects')
-      .select('slug, destino, utm_source, utm_medium, utm_campaign')
-      .eq('slug', slug)
-      .eq('activo', true)
-      .abortSignal(AbortSignal.timeout(TIMEOUT_CONSULTA_MS))
-      .maybeSingle();
+    const res = await fetch(apiUrl('redirects.php', { slug }), {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(TIMEOUT_CONSULTA_MS),
+    });
+    if (!res.ok) return fallbackPara(slug);
 
-    if (error || !data?.destino) return fallbackPara(slug);
+    // El API no filtra por "activo" (el admin necesita leer la fila incluso
+    // desactivada, para mostrar el toggle) — ese filtro que antes hacía la
+    // query de Supabase se aplica aquí.
+    const data = (await res.json()) as (Redirect & { activo: boolean }) | null;
+    if (!data?.destino || !data.activo) return fallbackPara(slug);
 
-    return data as Redirect;
+    return data;
   } catch {
     return fallbackPara(slug);
   }

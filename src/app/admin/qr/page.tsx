@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { apiUrl } from "@/lib/api";
+import { authHeaders, haySesion } from "@/lib/adminAuth";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -44,32 +45,30 @@ export default function AdminQR() {
   const cargarDatos = useCallback(async () => {
     setCargando(true);
 
-    const { data, error: errorRedirect } = await supabase
-      .from("redirects")
-      .select("destino, activo")
-      .eq("slug", SLUG)
-      .maybeSingle();
-
-    if (errorRedirect) {
-      setError("No se pudo leer la configuración: " + errorRedirect.message);
-    } else if (data) {
-      setDestino(data.destino ?? "");
-      setActivo(data.activo ?? true);
+    const resRedirect = await fetch(apiUrl("redirects.php", { slug: SLUG }), { cache: "no-store" });
+    if (!resRedirect.ok) {
+      setError("No se pudo leer la configuración");
+    } else {
+      const data = await resRedirect.json();
+      if (data) {
+        setDestino(data.destino ?? "");
+        setActivo(data.activo ?? true);
+      }
     }
 
-    const { count } = await supabase
-      .from("qr_scans")
-      .select("*", { count: "exact", head: true })
-      .eq("slug", SLUG)
-      .gte("scanned_at", inicioDeMesMerida());
+    const resScans = await fetch(
+      apiUrl("qr-scans.php", { slug: SLUG, since: inicioDeMesMerida() }),
+      { headers: authHeaders(), cache: "no-store" }
+    );
+    const { total } = resScans.ok ? await resScans.json() : { total: 0 };
 
-    setEscaneos(count ?? 0);
+    setEscaneos(total ?? 0);
     setCargando(false);
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
+    haySesion().then((activa) => {
+      if (!activa) {
         router.push("/admin");
       } else {
         cargarDatos();
@@ -83,13 +82,15 @@ export default function AdminQR() {
     setMensaje("");
     setError("");
 
-    const { error: errorGuardar } = await supabase
-      .from("redirects")
-      .update({ destino: destino.trim(), activo, updated_at: new Date().toISOString() })
-      .eq("slug", SLUG);
+    const res = await fetch(apiUrl("redirects.php"), {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...authHeaders() },
+      body: JSON.stringify({ slug: SLUG, destino: destino.trim(), activo }),
+    });
 
-    if (errorGuardar) {
-      setError("Error al guardar: " + errorGuardar.message);
+    if (!res.ok) {
+      const cuerpo = await res.json().catch(() => null);
+      setError("Error al guardar: " + (cuerpo?.error ?? res.statusText));
     } else {
       setMensaje("Guardado. El cambio ya está activo.");
     }

@@ -2,12 +2,13 @@ import { NextResponse } from 'next/server';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { buildDestination, resolveRedirect } from '@/lib/redirects';
 import { detectLanguage } from '@/lib/language';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { apiUrl } from '@/lib/api';
 
 /**
  * En Next.js 16 el archivo `middleware.ts` se renombró a `proxy.ts` y la función
  * a `proxy`. Corre en runtime Node.js por defecto (poner `export const runtime`
- * aquí lanza error), así que @supabase/supabase-js funciona sin adaptaciones.
+ * aquí lanza error), así que un `fetch` normal al API en Hostinger funciona sin
+ * adaptaciones.
  *
  * Las rutas de Next son sensibles a mayúsculas, así que la insensibilidad va en
  * el matcher: las clases [qQ][rR] cubren /qr, /QR, /Qr y /qR. El segundo patrón
@@ -79,11 +80,21 @@ async function registrarEscaneo(
   campaign: string | null
 ) {
   try {
-    await createAdminClient().from('qr_scans').insert({
-      slug,
-      campaign,
-      lang: detectLanguage(request.headers.get('accept-language')),
-      user_agent: request.headers.get('user-agent'),
+    // HOSTINGER_API_KEY (sin prefijo NEXT_PUBLIC_) es el reemplazo directo de
+    // SUPABASE_SERVICE_ROLE_KEY: solo el servidor la conoce, así que nadie sin
+    // ella puede insertar en qr_scans e inflar el contador.
+    await fetch(apiUrl('qr-scans.php'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': process.env.HOSTINGER_API_KEY ?? '',
+      },
+      body: JSON.stringify({
+        slug,
+        campaign,
+        lang: detectLanguage(request.headers.get('accept-language')),
+        user_agent: request.headers.get('user-agent'),
+      }),
     });
   } catch {
     // Silencio a propósito: el escaneo ya se resolvió.

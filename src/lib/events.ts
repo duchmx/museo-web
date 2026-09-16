@@ -1,4 +1,4 @@
-import { supabase } from './supabase/client';
+import { apiUrl } from './api';
 
 /**
  * Yucatán es UTC−6 todo el año, sin horario de verano. Fijar la zona
@@ -30,9 +30,6 @@ export type Evento = {
   imagen_poster: string | null;
   mostrar_en_hero: boolean;
 };
-
-export const CAMPOS_EVENTO =
-  'id, slug, ciclo, artista, event_date, event_time, precio, destacado, invitados, descripcion, imagen_hero, imagen_thumb, imagen_poster, mostrar_en_hero';
 
 /**
  * Instante real del evento.
@@ -69,19 +66,24 @@ export function hoyEnMerida(): string {
  * de hoy que ya pasaron desaparecen, pero los de hoy más tarde siguen ahí.
  */
 export async function getEventosFuturos(limite?: number): Promise<Evento[]> {
-  const { data, error } = await supabase
-    .from('events')
-    .select(CAMPOS_EVENTO)
-    .gte('event_date', hoyEnMerida())
-    .order('event_date', { ascending: true })
-    .order('event_time', { ascending: true });
+  let eventos: Evento[];
+  try {
+    const res = await fetch(apiUrl('events.php'));
+    if (!res.ok) return [];
+    eventos = (await res.json()) as Evento[];
+  } catch {
+    return [];
+  }
 
-  if (error || !data) return [];
-
+  // El filtro por fecha lo hacía Supabase en la consulta; el API ya devuelve
+  // todos los eventos ordenados por fecha, así que aquí solo queda filtrar:
+  // por fecha (Supabase lo hacía en la query) y por instante (los de hoy que
+  // ya pasaron desaparecen, los de más tarde no). El orden ya viene correcto.
+  const hoy = hoyEnMerida();
   const ahora = Date.now();
-  const futuros = (data as Evento[]).filter(
-    (evento) => instanteDe(evento).getTime() >= ahora
-  );
+  const futuros = eventos
+    .filter((evento) => evento.event_date >= hoy)
+    .filter((evento) => instanteDe(evento).getTime() >= ahora);
 
   return limite ? futuros.slice(0, limite) : futuros;
 }
@@ -212,21 +214,20 @@ const ES_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  * viejo. La página lo resuelve mandando a la agenda en vez de dar error.
  */
 export async function getEventoPorSlug(parametro: string): Promise<Evento | null> {
-  const { data } = await supabase
-    .from('events')
-    .select(CAMPOS_EVENTO)
-    .eq('slug', parametro)
-    .maybeSingle();
-
-  if (data) return data as Evento;
+  const porSlug = await fetchEvento({ slug: parametro });
+  if (porSlug) return porSlug;
 
   if (!ES_UUID.test(parametro)) return null;
 
-  const { data: porId } = await supabase
-    .from('events')
-    .select(CAMPOS_EVENTO)
-    .eq('id', parametro)
-    .maybeSingle();
+  return fetchEvento({ id: parametro });
+}
 
-  return (porId as Evento) ?? null;
+async function fetchEvento(params: Record<string, string>): Promise<Evento | null> {
+  try {
+    const res = await fetch(apiUrl('events.php', params));
+    if (!res.ok) return null;
+    return (await res.json()) as Evento | null;
+  } catch {
+    return null;
+  }
 }

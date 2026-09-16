@@ -17,19 +17,19 @@ if ($method === 'GET') {
         $stmt = $pdo->prepare('SELECT ' . CAMPOS_EVENTO . ' FROM events WHERE slug = ? LIMIT 1');
         $stmt->execute([$_GET['slug']]);
         $fila = $stmt->fetch();
-        echo json_encode($fila ?: null, JSON_UNESCAPED_UNICODE);
+        echo json_encode($fila ? mc_evento_json($fila) : null, JSON_UNESCAPED_UNICODE);
         exit;
     }
     if (isset($_GET['id'])) {
         $stmt = $pdo->prepare('SELECT ' . CAMPOS_EVENTO . ' FROM events WHERE id = ? LIMIT 1');
         $stmt->execute([$_GET['id']]);
         $fila = $stmt->fetch();
-        echo json_encode($fila ?: null, JSON_UNESCAPED_UNICODE);
+        echo json_encode($fila ? mc_evento_json($fila) : null, JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     $stmt = $pdo->query('SELECT ' . CAMPOS_EVENTO . ' FROM events ORDER BY event_date, event_time');
-    echo json_encode($stmt->fetchAll(), JSON_UNESCAPED_UNICODE);
+    echo json_encode(array_map('mc_evento_json', $stmt->fetchAll()), JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -80,6 +80,17 @@ if ($method === 'DELETE') {
 
 http_response_code(405);
 echo json_encode(['error' => 'Método no permitido']);
+
+/**
+ * PDO puede devolver TINYINT(1) como el string "0", y "0" es truthy en
+ * JavaScript — sin este cast, mostrar_en_hero=false llegaría a Next.js como
+ * verdadero. Se fuerza aquí, una sola vez, en vez de confiar en el driver.
+ */
+function mc_evento_json(array $fila): array
+{
+    $fila['mostrar_en_hero'] = (bool) $fila['mostrar_en_hero'];
+    return $fila;
+}
 
 function mc_evento_params(array $body, string $id): array
 {

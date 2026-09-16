@@ -15,6 +15,9 @@ if ($method === 'GET') {
     $stmt = $pdo->prepare('SELECT slug, destino, activo, utm_source, utm_medium, utm_campaign FROM redirects WHERE slug = ? LIMIT 1');
     $stmt->execute([$slug]);
     $fila = $stmt->fetch();
+    // Mismo cast que en events.php: PDO puede devolver TINYINT(1) como "0",
+    // y ese string es truthy en JavaScript.
+    if ($fila) $fila['activo'] = (bool) $fila['activo'];
     echo json_encode($fila ?: null, JSON_UNESCAPED_UNICODE);
     exit;
 }
