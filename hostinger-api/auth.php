@@ -45,7 +45,7 @@ function mc_require_admin(): void
 /**
  * Llamar al inicio de endpoints que solo Vercel llama por su cuenta (sin que
  * haya un admin logueado detrás) — hoy, únicamente el registro de escaneos de QR.
- * Equivale a lo que antes hacía SUPABASE_SERVICE_ROLE_KEY en src/lib/supabase/admin.ts.
+ * Equivale a lo que antes hacía SUPABASE_SERVICE_ROLE_KEY (ya retirado).
  */
 function mc_require_server_key(): void
 {

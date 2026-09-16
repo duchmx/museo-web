@@ -4,8 +4,10 @@ import { NextResponse, type NextRequest } from 'next/server';
 /**
  * Route handler de revalidación bajo demanda.
  *
- * Permite purgar la caché de Vercel cuando se inserta, actualiza o elimina un evento.
- * Puede ser llamado desde el panel de admin o mediante un Webhook de Supabase.
+ * Permite purgar la caché de Vercel cuando se inserta, actualiza o elimina un evento,
+ * llamándolo con REVALIDATE_SECRET desde donde haga falta (curl manual, un cron,
+ * o un futuro webhook del lado de Hostinger). Hoy el admin no lo usa: llama
+ * directamente a la Server Action en actions.ts, que no necesita el secreto.
  */
 export async function POST(request: NextRequest) {
   const secret =
